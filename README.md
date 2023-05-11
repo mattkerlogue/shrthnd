@@ -4,6 +4,8 @@
 # shrthnd <img src="man/figures/shrthnd_hex.png" align="right" alt="tidyods package logo" width="120" />
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/mattkerlogue/shrthnd/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mattkerlogue/shrthnd/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Data is often published with shorthand and symbols, and regularly these
