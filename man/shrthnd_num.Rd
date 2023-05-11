@@ -4,7 +4,13 @@
 \alias{shrthnd_num}
 \title{Process a character vector containing shorthand}
 \usage{
-shrthnd_num(x, shorthand, na_values = "NA", digits = 2L)
+shrthnd_num(
+  x,
+  shorthand = NULL,
+  na_values = "NA",
+  digits = 2L,
+  paren_nums = c("negative", "strip")
+)
 }
 \arguments{
 \item{x}{A character vector of numeric values with shorthand}
@@ -14,14 +20,30 @@ shrthnd_num(x, shorthand, na_values = "NA", digits = 2L)
 \item{na_values}{A character vector of NA values}
 
 \item{digits}{The number of digits for formatting numbers}
+
+\item{paren_nums}{How to handle numbers in parenthesis (e.g. \verb{(12,435.43)}),
+defaults to negative as most commonly used in accounting to denote
+negative values instead of a minus symbol preceding the value}
 }
 \value{
 A shrthnd_num vector
 }
 \description{
-Process a character vector containing shorthand
+\code{shrthnd_num()} coerces a character vector containing numeric data values
+with non-numeric markers into a numeric vector while also retaining the
+markers.
+}
+\details{
+Data stored in documents and publications are regularly annotated with
+shorthand and symbols. Often these markers are found in the same container
+(e.g. a table or spreadsheet cell) as the value they are associated with,
+which requires further cleaning of the vector to extract the numeric values.
+
+A simple approach is to discard the non-numeric components, however these
+markers convey information which you may wish to retain. \code{shrthnd_num()}
+provides a data type that can store both the numeric data and the marker
 }
 \examples{
-x <- c("12.345", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 shrthnd_num(x, c("[c]", "[e]"))
 }

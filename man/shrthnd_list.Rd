@@ -4,22 +4,23 @@
 \alias{shrthnd_list}
 \title{Collect the shorthand in a vector}
 \usage{
-shrthnd_list(x, shrthnd_values, na_values = "NA")
+shrthnd_list(x, shorthand = NULL, na_values = "NA")
 }
 \arguments{
 \item{x}{A character vector containing shorthand}
 
-\item{na_values}{A character value of NA values}
-
 \item{shorthand}{A character vector of shorthand values}
+
+\item{na_values}{A character value of NA values}
 }
 \value{
 A list of shorthand positions in a vector
 }
 \description{
-Collect the shorthand in a vector
+\code{shrthnd_list()} generates a lookup table of shorthand markers in a vector,
+either a character vector containing shorthand or a \code{shrthnd_num()} vector.
 }
 \examples{
-x <- c("12.345", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 shrthnd_list(x, c("[c]", "[e]"))
 }

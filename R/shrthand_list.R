@@ -1,5 +1,8 @@
 #' Collect the shorthand in a vector
 #'
+#' `shrthnd_list()` generates a lookup table of shorthand markers in a vector,
+#' either a character vector containing shorthand or a `shrthnd_num()` vector.
+#'
 #' @param x A character vector containing shorthand
 #' @param shorthand A character vector of shorthand values
 #' @param na_values A character value of NA values
@@ -10,21 +13,32 @@
 #' @examples
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' shrthnd_list(x, c("[c]", "[e]"))
-shrthnd_list <- function(x, shorthand, na_values = "NA") {
+shrthnd_list <- function(x, shorthand = NULL, na_values = "NA") {
 
-  if (!rlang::is_bare_character(x)) {
+  if (is_shrthnd_num(x)) {
+
+    shrt_values <- shrthnd_tags(x)
+    what_shrthnd <- shrthnd_tags_unique(x)
+
+  } else if (!rlang::is_bare_character(x)) {
+
     cli::cli_abort("{.arg x} must be a character vector")
-  }
 
-  shrt_values <- gsub("^\\d+(\\.\\d+)?", "", x)
-  shrt_values <- gsub(shrthnd_regex(na_values), "", shrt_values)
-  what_shrthnd <- unique(shrt_values[shrt_values != ""])
+  } else {
 
-  if (sum(!(what_shrthnd %in% shorthand)) > 0) {
-    cli::cli_alert_warning(
-      "{.arg x} contains non-numeric values not in {.arg shrthnd_values}"
-    )
-    return(NULL)
+    shrt_values <- gsub("(^[-\\(]?\\d+(,\\d+)*(\\.\\d+(e\\d+)?)?\\)?)(.*$)", "\\5", x)
+    shrt_values <- gsub(shrthnd_regex(na_values), "", shrt_values)
+    what_shrthnd <- unique(shrt_values[(shrt_values != "") & !is.na(shrt_values)])
+
+    if (!is.null(shorthand)) {
+      if (sum(!(what_shrthnd %in% shorthand)) > 0) {
+        cli::cli_alert_warning(
+          "{.arg x} contains non-numeric values not in {.arg shorthand}"
+        )
+        return(NULL)
+      }
+    }
+
   }
 
   where_shrthnd <- purrr::map(

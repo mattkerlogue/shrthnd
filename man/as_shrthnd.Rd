@@ -4,23 +4,30 @@
 \alias{as_shrthnd}
 \title{Coerce a shrthnd_num to a character vector with shorthand}
 \usage{
-as_shrthnd(x, digits = TRUE, .subtle = FALSE)
+as_shrthnd(x, digits = TRUE, .pillar = FALSE)
 }
 \arguments{
 \item{x}{A \code{\link[=shrthnd_num]{shrthnd_num()}} vector}
 
 \item{digits}{Whether to apply digit formatting}
 
-\item{.subtle}{Used for formatting with the \code{{pillar}} package}
+\item{.pillar}{A flag for formatting within the \code{{pillar}} package}
 }
 \value{
 A character vector
 }
 \description{
-Coerce a shrthnd_num to a character vector with shorthand
+\code{as_shrthnd()} coerces a \code{shrthnd_num()} vector back to a character vector
+re-inserting the shorthand tags.
+}
+\details{
+When calling \code{as.character()} on a \code{shrthnd_num()} the output is as you
+would expect when calling it on a traditional numeric vector, \code{as_shrthnd()}
+returns a character vector combining the numeric vector and the shorthand
+tags.
 }
 \examples{
-x <- c("12.345", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 sh_x <- shrthnd_num(x, c("[c]", "[e]"), digits = 1)
 as_shrthnd(sh_x)
 as_shrthnd(sh_x, digits = FALSE)

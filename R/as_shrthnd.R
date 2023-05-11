@@ -1,8 +1,16 @@
 #' Coerce a shrthnd_num to a character vector with shorthand
 #'
+#' `as_shrthnd()` coerces a `shrthnd_num()` vector back to a character vector
+#' re-inserting the shorthand tags.
+#'
+#' When calling `as.character()` on a `shrthnd_num()` the output is as you
+#' would expect when calling it on a traditional numeric vector, `as_shrthnd()`
+#' returns a character vector combining the numeric vector and the shorthand
+#' tags.
+#'
 #' @param x A [shrthnd_num()] vector
 #' @param digits Whether to apply digit formatting
-#' @param .subtle Used for formatting with the `{pillar}` package
+#' @param .pillar A flag for formatting within the `{pillar}` package
 #'
 #' @return A character vector
 #' @export
@@ -12,37 +20,39 @@
 #' sh_x <- shrthnd_num(x, c("[c]", "[e]"), digits = 1)
 #' as_shrthnd(sh_x)
 #' as_shrthnd(sh_x, digits = FALSE)
-as_shrthnd <- function(x, digits = TRUE, .subtle = FALSE) {
+as_shrthnd <- function(x, digits = TRUE, .pillar = FALSE) {
 
-  x_sh <- shrthnd_tags(x)
+  num <- field(x, "num")
+  tag <- field(x, "tag")
 
   if (digits) {
     d <- attr(x, "digits")
     if (!is.null(d)) {
-      out <- sprintf(paste0("%-0.", d, "f"), vctrs::vec_data(x))
+      out <- formatC(num, digits = d, format = "f", big.mark = ",")
     } else {
-      out <- as.character(x)
+      out <- formatC(num, format = "d", big.mark = ",")
     }
   } else {
-    out <- as.character(x)
+    out <- formatC(num, format = "d", big.mark = ",")
   }
 
-  is_na <- is.na(x)
-  has_sh <- !is.na(x_sh)
+  is_na <- is.na(num)
+  has_sh <- !is.na(tag)
 
   out[is_na & !has_sh] <- NA_character_
 
-  if (.subtle) {
-    out[is_na & has_sh] <- pillar::style_subtle(x_sh[is_na & has_sh])
+  if (.pillar) {
+    out[is_na & has_sh] <- pillar::style_subtle(tag[is_na & has_sh])
     out[!is_na & has_sh] <- paste0(
       out[!is_na & has_sh],
-      pillar::style_subtle(x_sh[!is_na & has_sh])
+      pillar::style_subtle(tag[!is_na & has_sh])
     )
   } else {
-    out[is_na & has_sh] <- x_sh[is_na & has_sh]
-    out[!is_na & has_sh] <- paste0(out[!is_na & has_sh], x_sh[!is_na & has_sh])
+    out[is_na & has_sh] <- tag[is_na & has_sh]
+    out[!is_na & has_sh] <- paste0(out[!is_na & has_sh], tag[!is_na & has_sh])
   }
 
-  out
+  return(out)
 
 }
+

@@ -1,5 +1,8 @@
 #' shrthnd predicates
 #'
+#' The `is_shrthnd_*` family of functions test whether a vector is either a
+#' `shrthnd_num()`, `shrthnd_integer()`, `shrthnd_double()` or a `shrthnd_list()`
+#'
 #' @param x A shrthnd object
 #'
 #' @return A logical vector
@@ -17,14 +20,8 @@
 #' is_shrthnd_num(sh_y)
 #' is_shrthnd_integer(sh_y)
 #'
-#' sh_l <- get_shrthnd_list(sh_x)
+#' sh_l <- shrthnd_list(sh_x)
 #' is_shrthnd_list(sh_l)
-is_shrthnd_list <- function(x) {
-  inherits(x, "shrthnd_list")
-}
-
-#' @export
-#' @rdname is_shrthnd
 is_shrthnd_num <- function(x) {
   inherits(x, "shrthnd_num")
 }
@@ -39,4 +36,10 @@ is_shrthnd_integer <- function(x) {
 #' @rdname is_shrthnd
 is_shrthnd_double <- function(x) {
   inherits(x, "shrthnd_double")
+}
+
+#' @export
+#' @rdname is_shrthnd
+is_shrthnd_list <- function(x) {
+  inherits(x, "shrthnd_list")
 }
