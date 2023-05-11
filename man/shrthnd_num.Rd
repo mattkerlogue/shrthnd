@@ -30,18 +30,31 @@ A shrthnd_num vector
 }
 \description{
 \code{shrthnd_num()} coerces a character vector containing numeric data values
-with non-numeric markers into a numeric vector while also retaining the
-markers.
+with non-numeric tags into a numeric vector while also retaining the
+tags.
 }
 \details{
 Data stored in documents and publications are regularly annotated with
-shorthand and symbols. Often these markers are found in the same container
+shorthand and symbols. Often these tags are found in the same container
 (e.g. a table or spreadsheet cell) as the value they are associated with,
 which requires further cleaning of the vector to extract the numeric values.
 
 A simple approach is to discard the non-numeric components, however these
 markers convey information which you may wish to retain. \code{shrthnd_num()}
-provides a data type that can store both the numeric data and the marker
+provides a data type that can store both the numeric data and the marker.
+
+\code{shrthnd_num()} expects character vectors with a numeric component followed
+by a non-numeric component, other formats will fail.
+
+By default \code{shrthnd_num()} will extract any non-numeric values following
+numeric ones and process them as a shorthand tag. However, you can
+optionally supply a vector of tags, using the \code{shorthand} argument, if you
+wish to validate the extracted tags and only accept vectors with specific
+shorthand values.
+
+If the underlying numeric values are real numbers (i.e. a \code{double()} vector)
+the \code{digits} argument will be used to format the display of the
+\code{shrthnd_dbl} vector (defaults to 2 decimal places).
 }
 \examples{
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")

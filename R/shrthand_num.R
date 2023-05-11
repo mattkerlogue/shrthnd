@@ -1,17 +1,30 @@
 #' Process a character vector containing shorthand
 #'
 #' `shrthnd_num()` coerces a character vector containing numeric data values
-#' with non-numeric markers into a numeric vector while also retaining the
-#' markers.
+#' with non-numeric tags into a numeric vector while also retaining the
+#' tags.
 #'
 #' Data stored in documents and publications are regularly annotated with
-#' shorthand and symbols. Often these markers are found in the same container
+#' shorthand and symbols. Often these tags are found in the same container
 #' (e.g. a table or spreadsheet cell) as the value they are associated with,
 #' which requires further cleaning of the vector to extract the numeric values.
 #'
 #' A simple approach is to discard the non-numeric components, however these
 #' markers convey information which you may wish to retain. `shrthnd_num()`
-#' provides a data type that can store both the numeric data and the marker
+#' provides a data type that can store both the numeric data and the marker.
+#'
+#' `shrthnd_num()` expects character vectors with a numeric component followed
+#' by a non-numeric component, other formats will fail.
+#'
+#' By default `shrthnd_num()` will extract any non-numeric values following
+#' numeric ones and process them as a shorthand tag. However, you can
+#' optionally supply a vector of tags, using the `shorthand` argument, if you
+#' wish to validate the extracted tags and only accept vectors with specific
+#' shorthand values.
+#'
+#' If the underlying numeric values are real numbers (i.e. a `double()` vector)
+#' the `digits` argument will be used to format the display of the
+#' `shrthnd_dbl` vector (defaults to 2 decimal places).
 #'
 #' @param x A character vector of numeric values with shorthand
 #' @param shorthand A character vector of shorthand values
@@ -31,42 +44,84 @@ shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
                         paren_nums = c("negative", "strip")) {
 
   if (!rlang::is_character(x)) {
-    cli::cli_warn("{.arg x} must be a character vector")
+    cli::cli_alert_warning(
+      "{.arg x} must be a character vector, input will be coerced"
+    )
+    x <- as.character(x)
   }
 
   x <- vctrs::vec_data(x)
+  x <- strip_percent(x)
 
   sh_lst <- shrthnd_list(x, shorthand, na_values)
 
   if (is.null(sh_lst)) {
-    cli::cli_warn("no shorthand detected returning {.x} as-is")
-    return(x)
+    ret_x <- utils::type.convert(x, na_values, as.is = TRUE)
+    cli::cli_alert_danger(
+      paste0("{.arg x} returned as {.cls ", class(ret_x)[1], "}")
+    )
+    return(ret_x)
   }
 
-  sh_tags <- shrthnd_tags_unique(sh_lst)
+  tags <- gen_shrthnd_tags(sh_lst, length(x))
+  unq_tags <- shrthnd_unique_tags(sh_lst)
 
   paren_nums <- match.arg(paren_nums)
-  base_values <- convert_to_num(x, sh_tags, na_values, paren_nums)
+  base_values <- convert_to_num(x, unq_tags, na_values, paren_nums)
 
   if (!is.numeric(base_values)) {
     cli::cli_abort("unable to convert {.arg x} to a numeric vector")
   }
 
-  new_shrthnd_num(base_values, sh_lst, digits)
+  new_shrthnd_num(base_values, tags, digits)
 
 }
 
-new_shrthnd_num <- function(x = numeric(), s = list(), digits = 2L) {
+#' Make a shrthnd_num vector
+#'
+#' `make_shrthnd_num()` allows you to construct a `shrthnd_num` vector from
+#' a numeric vector of data values and a character vector of shorthand markers.
+#'
+#' @param x A numeric vector
+#' @param tags A character vector
+#' @param digits The number of digits to format the numeric vector with
+#'
+#' @return A `shrthnd_num` vector
+#' @export
+#'
+#' @examples
+#' make_shrthnd_num(c(1:3, NA, 4:5, NA), c("", "", "", "[c]", "", "[e]", NA))
+make_shrthnd_num <- function(x = numeric(), tags = character(), digits = 2L) {
+
+  if (is.integer(x)) {
+    x <- vec_cast(x, integer())
+  } else {
+    x <- vec_cast(x, double())
+  }
+
+  tags <- vec_cast(tags, character())
+  tags <- gsub("^(\\s)", "", tags)
+  tags <- gsub("(\\s)$", "", tags)
+
+  tags[tags == ""] <- NA_character_
+
+  new_shrthnd_num(x, tags, digits)
+
+}
+
+new_shrthnd_num <- function(x = numeric(), tags = character(), digits = 2L) {
 
   if (!rlang::is_bare_numeric(x)) {
     cli::cli_abort("{.arg x} must be a numeric vector")
   }
 
-  if (!is_shrthnd_list(s)) {
-    cli::cli_abort("{.arg s} must be a shrthnd_list")
+  if (!rlang::is_bare_character(tags)) {
+    cli::cli_abort("{.arg x} must be a numeric vector")
   }
 
-  tags <- gen_shrthnd_tags(s, length(x))
+  if (length(x) != length(tags)) {
+    cli::cli_abort("{.arg x} must be a numeric vector")
+  }
 
   digits <- vctrs::vec_recycle(vctrs::vec_cast(digits, integer()), 1L)
 
@@ -97,13 +152,13 @@ vec_ptype_abbr.shrthnd_num <- function (x, ...) {
 }
 
 #' @export
-format.shrthnd_num <- function(x, digits = TRUE, ...) {
-  as_shrthnd(x, digits = digits, .pillar = FALSE)
+format.shrthnd_num <- function(x, ...) {
+  as_shrthnd(x, .pillar = FALSE, ...)
 }
 
 #' @export
 pillar_shaft.shrthnd_num <- function(x, ...) {
-  out <- as_shrthnd(x, digits = TRUE, .pillar = TRUE)
+  out <- as_shrthnd(x, .pillar = TRUE, ...)
   pillar::new_pillar_shaft_simple(out, align = "right")
 }
 

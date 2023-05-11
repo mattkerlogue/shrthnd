@@ -14,40 +14,63 @@
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' shrthnd_list(x, c("[c]", "[e]"))
 shrthnd_list <- function(x, shorthand = NULL, na_values = "NA") {
+  UseMethod("shrthnd_list")
+}
 
-  if (is_shrthnd_num(x)) {
+#' @export
+shrthnd_list.shrthnd_num <- function(x, ...) {
 
-    shrt_values <- shrthnd_tags(x)
-    what_shrthnd <- shrthnd_tags_unique(x)
+  tags <- shrthnd_tags(x)
+  unq_tags <- shrthnd_unique_tags(x)
+  where_shrthnd <- where_tags(tags, unq_tags)
 
-  } else if (!rlang::is_bare_character(x)) {
+  new_shrthnd_list(unq_tags, where_shrthnd)
 
+}
+
+#' @export
+shrthnd_list.character <- function(x, shorthand = NULL, na_values = "NA", ...) {
+
+  if (!rlang::is_bare_character(x)) {
     cli::cli_abort("{.arg x} must be a character vector")
+  }
 
-  } else {
+  if (!rlang::is_bare_character(na_values)) {
+    cli::cli_abort("{.arg na_values} must be a character vector")
+  }
 
-    shrt_values <- gsub("(^[-\\(]?\\d+(,\\d+)*(\\.\\d+(e\\d+)?)?\\)?)(.*$)", "\\5", x)
-    shrt_values <- gsub(shrthnd_regex(na_values), "", shrt_values)
-    what_shrthnd <- unique(shrt_values[(shrt_values != "") & !is.na(shrt_values)])
+  all_tags <- extract_text(x, na_values)
+  unq_tags <- unique(all_tags)
+  unq_tags <- unq_tags[(unq_tags!= "") & !is.na(unq_tags)]
 
-    if (!is.null(shorthand)) {
-      if (sum(!(what_shrthnd %in% shorthand)) > 0) {
-        cli::cli_alert_warning(
-          "{.arg x} contains non-numeric values not in {.arg shorthand}"
-        )
-        return(NULL)
-      }
+  if (!is.null(shorthand)) {
+
+    if (!rlang::is_bare_character(shorthand)) {
+      cli::cli_abort("{.arg shorthand} must be a character vector")
+    }
+
+    if (!validate_tags(unq_tags, shorthand)) {
+      cli::cli_alert_warning(
+        "{.arg x} contains non-numeric values not in {.arg shorthand}"
+      )
+      return(NULL)
     }
 
   }
 
-  where_shrthnd <- purrr::map(
-    what_shrthnd, ~which(shrt_values == .x, useNames = FALSE)
-  )
+  where_shrthnd <- where_tags(all_tags, unq_tags)
 
-  new_shrthnd_list(what_shrthnd, where_shrthnd)
+  if (length(where_shrthnd) == 0) {
+    cli::cli_alert_warning(
+      "No shorthand detected in {.arg x}"
+    )
+    return(NULL)
+  }
+
+  new_shrthnd_list(unq_tags, where_shrthnd)
 
 }
+
 
 new_shrthnd_list <- function(s = character(), w = list()) {
 

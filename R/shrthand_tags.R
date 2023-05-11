@@ -1,7 +1,7 @@
 #' Get the tags attached to a shrthnd vector
 #'
 #' `shrthnd_tags()` provides a character vector the same length as `x` with
-#' the shorthand tags, or `NA` if that value has no tag. `shrthnd_tags_unique()`
+#' the shorthand tags, or `NA` if that value has no tag. `shrthnd_unique_tags()`
 #' is a convenience wrapper for `unique(shrthnd_tags(x))`, but can also be
 #' called on a `shrthnd_list()` object.
 #'
@@ -15,29 +15,35 @@
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' sh_x <- shrthnd_num(x, c("[c]", "[e]"))
 #' shrthnd_tags(sh_x)
-#' shrthnd_tags_unique(sh_x)
+#' shrthnd_unique_tags(sh_x)
 shrthnd_tags <- function(x) {
-  if (!is_shrthnd_num(x)) {
-    cli::cli_abort("{.arg x} must be a {.cls shrthnd_num}")
-  }
+  UseMethod("shrthnd_tags")
+}
+
+#' @export
+shrthnd_tags.shrthnd_num <- function (x, ...) {
   vctrs::field(x, "tag")
 }
 
 #' @export
+shrthnd_tags.shrthnd_list <- function (x, ...) {
+  names(x)
+}
+
+#' @export
 #' @rdname shrthnd_tags
-shrthnd_tags_unique <- function(x) {
-  if (is_shrthnd_num(x)) {
-    tags <- unique(vctrs::field(x, "tag"))
-  } else if (is_shrthnd_list(x)) {
-    tags <- names(x)
-  } else {
-    cli::cli_abort("{.arg x} must be either a {.cls shrthnd_num} or {.cls shrthnd_list}")
-  }
+shrthnd_unique_tags <- function(x) {
+  UseMethod("shrthnd_unique_tags")
+}
 
-  out <- tags[(tags != "") & !is.na(tags)]
+#' @export
+shrthnd_unique_tags.shrthnd_num <- function(x, ...) {
+  unique(vctrs::field(x, "tag"))
+}
 
-  return(out)
-
+#' @export
+shrthnd_unique_tags.shrthnd_list <- function(x, ...) {
+  names(x)
 }
 
 gen_shrthnd_tags <- function(sl, l) {

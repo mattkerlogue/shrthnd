@@ -2,12 +2,12 @@
 % Please edit documentation in R/shrthand_tags.R
 \name{shrthnd_tags}
 \alias{shrthnd_tags}
-\alias{shrthnd_tags_unique}
+\alias{shrthnd_unique_tags}
 \title{Get the tags attached to a shrthnd vector}
 \usage{
 shrthnd_tags(x)
 
-shrthnd_tags_unique(x)
+shrthnd_unique_tags(x)
 }
 \arguments{
 \item{x}{A \code{shrthnd_num()} vector}
@@ -17,7 +17,7 @@ A character vector
 }
 \description{
 \code{shrthnd_tags()} provides a character vector the same length as \code{x} with
-the shorthand tags, or \code{NA} if that value has no tag. \code{shrthnd_tags_unique()}
+the shorthand tags, or \code{NA} if that value has no tag. \code{shrthnd_unique_tags()}
 is a convenience wrapper for \code{unique(shrthnd_tags(x))}, but can also be
 called on a \code{shrthnd_list()} object.
 }
@@ -25,5 +25,5 @@ called on a \code{shrthnd_list()} object.
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 sh_x <- shrthnd_num(x, c("[c]", "[e]"))
 shrthnd_tags(sh_x)
-shrthnd_tags_unique(sh_x)
+shrthnd_unique_tags(sh_x)
 }

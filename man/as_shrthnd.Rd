@@ -4,7 +4,7 @@
 \alias{as_shrthnd}
 \title{Coerce a shrthnd_num to a character vector with shorthand}
 \usage{
-as_shrthnd(x, digits = TRUE, .pillar = FALSE)
+as_shrthnd(x, digits = NULL, .pillar = FALSE)
 }
 \arguments{
 \item{x}{A \code{\link[=shrthnd_num]{shrthnd_num()}} vector}

@@ -20,20 +20,22 @@
 #' sh_x <- shrthnd_num(x, c("[c]", "[e]"), digits = 1)
 #' as_shrthnd(sh_x)
 #' as_shrthnd(sh_x, digits = FALSE)
-as_shrthnd <- function(x, digits = TRUE, .pillar = FALSE) {
+as_shrthnd <- function(x, digits = NULL, .pillar = FALSE) {
 
   num <- field(x, "num")
   tag <- field(x, "tag")
 
-  if (digits) {
-    d <- attr(x, "digits")
-    if (!is.null(d)) {
-      out <- formatC(num, digits = d, format = "f", big.mark = ",")
-    } else {
-      out <- formatC(num, format = "d", big.mark = ",")
+  if (is.null(digits)) {
+    digits <- attr(x, "digits")
+    if (is.null(digits)) {
+      digits <- 2L
     }
-  } else {
+  }
+
+  if (is_shrthnd_integer(x)) {
     out <- formatC(num, format = "d", big.mark = ",")
+  } else {
+    out <- formatC(num, digits = digits, format = "f", big.mark = ",")
   }
 
   is_na <- is.na(num)
@@ -44,12 +46,12 @@ as_shrthnd <- function(x, digits = TRUE, .pillar = FALSE) {
   if (.pillar) {
     out[is_na & has_sh] <- pillar::style_subtle(tag[is_na & has_sh])
     out[!is_na & has_sh] <- paste0(
-      out[!is_na & has_sh],
+      out[!is_na & has_sh], " ",
       pillar::style_subtle(tag[!is_na & has_sh])
     )
   } else {
     out[is_na & has_sh] <- tag[is_na & has_sh]
-    out[!is_na & has_sh] <- paste0(out[!is_na & has_sh], tag[!is_na & has_sh])
+    out[!is_na & has_sh] <- paste0(out[!is_na & has_sh], " ", tag[!is_na & has_sh])
   }
 
   return(out)
