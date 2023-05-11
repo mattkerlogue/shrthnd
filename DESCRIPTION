@@ -1,0 +1,22 @@
+Package: shrthnd
+Title: Work with data that uses shorthand and symbols
+Version: 0.1.0
+Authors@R: 
+    person("Matt", "Kerlogue", , "matt.kerlogue@me.com", role = c("aut", "cre"))
+Description: Process character vectors of numerical data that contains
+    non-numeric shorthand and symbols.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    cli,
+    glue,
+    pillar,
+    purrr,
+    rlang,
+    stringr,
+    utils,
+    vctrs
+Suggests: 
+    tibble
