@@ -20,3 +20,6 @@ Imports:
     vctrs
 Suggests: 
     tibble
+URL: https://github.com/mattkerlogue/shrthnd, 
+    https://mattkerlogue.github.io/shrthnd/
+BugReports: https://github.com/mattkerlogue/shrthnd/issues

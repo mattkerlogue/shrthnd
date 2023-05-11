@@ -1,0 +1,13 @@
+url: https://mattkerlogue.github.io/shrthnd/
+
+template:
+  bootstrap: 5
+
+  bslib:
+    primary: "#1BA8E0"
+    base_font: {google: "Heebo"}
+    code_font: {google: "JetBrains Mono"}
+
+opengraph:
+  image:
+    src: man/figures/shrthnd_hex.png
