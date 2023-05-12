@@ -1,0 +1,37 @@
+x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+sh_dbl <- shrthnd_num(x)
+sh_l <- shrthnd_list(x)
+y <- c("12", "34", "[c]", "NA", "56[e]", "78", "90[e]")
+sh_int <- shrthnd_num(y)
+
+test_that("predicate TRUE", {
+  expect_true(is_shrthnd_num(sh_dbl))
+  expect_true(is_shrthnd_double(sh_dbl))
+  expect_true(is_shrthnd_num(sh_int))
+  expect_true(is_shrthnd_integer(sh_int))
+  expect_true(is_shrthnd_list(sh_l))
+})
+
+test_that("predicate FALSE", {
+  # general failures
+  expect_false(is_shrthnd_num(1))
+  expect_false(is_shrthnd_num("a"))
+  expect_false(is_shrthnd_num(list()))
+  expect_false(is_shrthnd_double(1))
+  expect_false(is_shrthnd_double("a"))
+  expect_false(is_shrthnd_double(list()))
+  expect_false(is_shrthnd_integer(1))
+  expect_false(is_shrthnd_integer("a"))
+  expect_false(is_shrthnd_integer(list()))
+  expect_false(is_shrthnd_list(1))
+  expect_false(is_shrthnd_list("a"))
+  expect_false(is_shrthnd_list(list()))
+  # shrthnd failures
+  expect_false(is_shrthnd_num(sh_l))
+  expect_false(is_shrthnd_double(sh_int))
+  expect_false(is_shrthnd_double(sh_l))
+  expect_false(is_shrthnd_integer(sh_dbl))
+  expect_false(is_shrthnd_integer(sh_l))
+  expect_false(is_shrthnd_list(sh_int))
+  expect_false(is_shrthnd_list(sh_dbl))
+})
