@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
-#' shrthnd_list(x, c("[c]", "[e]"))
+#' shrthnd_list(x)
 shrthnd_list <- function(x, shorthand = NULL, na_values = "NA") {
   UseMethod("shrthnd_list")
 }
@@ -33,6 +33,13 @@ shrthnd_list.character <- function(x, shorthand = NULL, na_values = "NA", ...) {
 
   if (!rlang::is_bare_character(x)) {
     cli::cli_abort("{.arg x} must be a character vector")
+  }
+
+  if (sum(grepl("\\d+", x)) == 0) {
+    cli::cli_alert_warning(
+      "{.arg x} does not contain numeric content"
+    )
+    return(NULL)
   }
 
   if (!rlang::is_bare_character(na_values)) {
