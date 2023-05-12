@@ -9,7 +9,7 @@ as_shrthnd(x, digits = NULL, .pillar = FALSE)
 \arguments{
 \item{x}{A \code{\link[=shrthnd_num]{shrthnd_num()}} vector}
 
-\item{digits}{Whether to apply digit formatting}
+\item{digits}{Number of digits to apply to \code{shrthnd_double} vectors}
 
 \item{.pillar}{A flag for formatting within the \code{{pillar}} package}
 }
@@ -25,10 +25,14 @@ When calling \code{as.character()} on a \code{shrthnd_num()} the output is as yo
 would expect when calling it on a traditional numeric vector, \code{as_shrthnd()}
 returns a character vector combining the numeric vector and the shorthand
 tags.
+
+When \code{digits = NULL} then \code{shrthnd_double} vectors are printed with the
+number of digits set in the \code{digits} attribute of the vector, setting
+\code{digits} in \code{as_shrthnd()} will override this value.
 }
 \examples{
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 sh_x <- shrthnd_num(x, c("[c]", "[e]"), digits = 1)
 as_shrthnd(sh_x)
-as_shrthnd(sh_x, digits = FALSE)
+as_shrthnd(sh_x, digits = 3)
 }
