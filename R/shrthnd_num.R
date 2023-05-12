@@ -1,7 +1,7 @@
-#' Process a character vector containing shorthand
+#' Convert a character vector containing shorthand
 #'
 #' `shrthnd_num()` coerces a character vector containing numeric data values
-#' with non-numeric tags into a numeric vector while also retaining the
+#' with non-numeric tags into a numeric-like vector while also retaining the
 #' tags.
 #'
 #' Data stored in documents and publications are regularly annotated with
@@ -10,15 +10,8 @@
 #' which requires further cleaning of the vector to extract the numeric values.
 #'
 #' A simple approach is to discard the non-numeric components, however these
-#' markers convey information which you may wish to retain. `shrthnd_num()`
+#' tags can convey information which you may wish to retain. `shrthnd_num()`
 #' provides a data type that can store both the numeric data and the marker.
-#'
-#' `shrthnd_num()` expects character vectors with a numeric component followed
-#' by a non-numeric component, other formats will fail.
-#'
-#' `shrthnd_num` vectors have one of two subclasses, `shrthnd_integer` when
-#' the underlying data is an integer and `shrthnd_double` when the underlying
-#' data is a real number.
 #'
 #' By default `shrthnd_num()` will extract any non-numeric values following
 #' numeric ones and process them as a shorthand tag. However, you can
@@ -76,7 +69,7 @@ shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
 
 }
 
-#' Make a shrthnd_num vector
+#' Make a shrthnd_num vector from numeric and character components
 #'
 #' `make_shrthnd_num()` allows you to construct a `shrthnd_num` vector from
 #' a numeric vector of data values and a character vector of shorthand markers.
@@ -121,29 +114,21 @@ new_shrthnd_num <- function(x = numeric(), tags = character(), digits = 2L) {
   digits <- vctrs::vec_recycle(vctrs::vec_cast(digits, integer()), 1L)
 
   if (is.integer(x)) {
-    vctrs::new_rcrd(list(num = x, tag = tags),
-                    class = c("shrthnd_integer", "shrthnd_num"))
+    vctrs::new_rcrd(list(num = x, tag = tags), class = "shrthnd_num")
   } else {
-    vctrs::new_rcrd(list(num = x, tag = tags),
-                    digits = digits,
-                    class = c("shrthnd_double", "shrthnd_num"))
+    vctrs::new_rcrd(list(num = x, tag = tags), digits = digits,
+                    class = "shrthnd_num")
   }
 
 }
 
 #' @export
-vec_ptype_abbr.shrthnd_integer <- function (x, ...) {
-  "sh_int"
-}
-
-#' @export
-vec_ptype_abbr.shrthnd_double <- function (x, ...) {
-  "sh_dbl"
-}
-
-#' @export
 vec_ptype_abbr.shrthnd_num <- function (x, ...) {
-  "sh_num"
+  if (is_shrthnd_integer(x)) {
+    "sh_int"
+  } else {
+    "sh_dbl"
+  }
 }
 
 #' @export
@@ -156,33 +141,3 @@ pillar_shaft.shrthnd_num <- function(x, ...) {
   out <- as_shrthnd(x, .pillar = TRUE, ...)
   pillar::new_pillar_shaft_simple(out, align = "right")
 }
-
-#' @export
-vec_ptype2.double.shrthnd_double <- function(x, y, ...) double()
-
-#' @export
-vec_cast.double.shrthnd_double <- function(x, to, ...) vctrs::field(x, "num")
-
-#' @export
-vec_ptype2.double.shrthnd_integer <- function(x, y, ...) integer()
-
-#' @export
-vec_cast.double.shrthnd_integer <- function(x, to, ...) vctrs::field(x, "num")
-
-#' @export
-vec_ptype2.integer.shrthnd_integer <- function(x, y, ...) integer()
-
-#' @export
-vec_cast.integer.shrthnd_integer <- function(x, to, ...) vctrs::field(x, "num")
-
-#' @export
-vec_ptype2.character.shrthnd_double <- function(x, y, ...) character()
-
-#' @export
-vec_cast.character.shrthnd_double <- function(x, to, ...) as.character(vctrs::field(x, "num"))
-
-#' @export
-vec_ptype2.character.shrthnd_integer <- function(x, y, ...) character()
-
-#' @export
-vec_cast.character.shrthnd_integer <- function(x, to, ...) as.character(vctrs::field(x, "num"))

@@ -2,7 +2,7 @@
 % Please edit documentation in R/shrthnd_num.R
 \name{shrthnd_num}
 \alias{shrthnd_num}
-\title{Process a character vector containing shorthand}
+\title{Convert a character vector containing shorthand}
 \usage{
 shrthnd_num(
   x,
@@ -30,7 +30,7 @@ A shrthnd_num vector
 }
 \description{
 \code{shrthnd_num()} coerces a character vector containing numeric data values
-with non-numeric tags into a numeric vector while also retaining the
+with non-numeric tags into a numeric-like vector while also retaining the
 tags.
 }
 \details{
@@ -40,15 +40,8 @@ shorthand and symbols. Often these tags are found in the same container
 which requires further cleaning of the vector to extract the numeric values.
 
 A simple approach is to discard the non-numeric components, however these
-markers convey information which you may wish to retain. \code{shrthnd_num()}
+tags can convey information which you may wish to retain. \code{shrthnd_num()}
 provides a data type that can store both the numeric data and the marker.
-
-\code{shrthnd_num()} expects character vectors with a numeric component followed
-by a non-numeric component, other formats will fail.
-
-\code{shrthnd_num} vectors have one of two subclasses, \code{shrthnd_integer} when
-the underlying data is an integer and \code{shrthnd_double} when the underlying
-data is a real number.
 
 By default \code{shrthnd_num()} will extract any non-numeric values following
 numeric ones and process them as a shorthand tag. However, you can

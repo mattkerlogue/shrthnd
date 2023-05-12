@@ -3,7 +3,7 @@
     Code
       shrthnd_num(x)
     Output
-      <shrthnd_double[7]>
+      <shrthnd_num[7]>
       [1] 12.00     34.57     [c]       <NA>      56.78 [e] 78.90     90.12 [e]
 
 ---
@@ -27,7 +27,7 @@
     Code
       shrthnd_num(y)
     Output
-      <shrthnd_integer[7]>
+      <shrthnd_num[7]>
       [1] 12     34     [c]    <NA>   56 [e] 78     90 [e]
 
 ---

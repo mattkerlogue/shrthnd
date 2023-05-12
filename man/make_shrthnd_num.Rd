@@ -2,7 +2,7 @@
 % Please edit documentation in R/shrthnd_num.R
 \name{make_shrthnd_num}
 \alias{make_shrthnd_num}
-\title{Make a shrthnd_num vector}
+\title{Make a shrthnd_num vector from numeric and character components}
 \usage{
 make_shrthnd_num(x = numeric(), tags = character(), digits = 2L)
 }

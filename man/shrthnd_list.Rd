@@ -2,16 +2,16 @@
 % Please edit documentation in R/shrthnd_list.R
 \name{shrthnd_list}
 \alias{shrthnd_list}
-\title{Collect the shorthand in a vector}
+\title{List the shorthand in a vector}
 \usage{
 shrthnd_list(x, shorthand = NULL, na_values = "NA")
 }
 \arguments{
-\item{x}{A character vector containing shorthand}
+\item{x}{A character vector containing shorthand, or a \code{shrthnd_num()} vector}
 
-\item{shorthand}{A character vector of shorthand values}
+\item{shorthand}{A character vector of shorthand values to validate tags against}
 
-\item{na_values}{A character value of NA values}
+\item{na_values}{A character value of NA values to ignore}
 }
 \value{
 A list of shorthand positions in a vector
@@ -23,4 +23,8 @@ either a character vector containing shorthand or a \code{shrthnd_num()} vector.
 \examples{
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 shrthnd_list(x)
+
+sh_x <- shrthnd_num(x)
+sh_x
+shrthnd_list(sh_x)
 }

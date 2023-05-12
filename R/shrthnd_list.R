@@ -1,11 +1,11 @@
-#' Collect the shorthand in a vector
+#' List the shorthand in a vector
 #'
 #' `shrthnd_list()` generates a lookup table of shorthand markers in a vector,
 #' either a character vector containing shorthand or a `shrthnd_num()` vector.
 #'
-#' @param x A character vector containing shorthand
-#' @param shorthand A character vector of shorthand values
-#' @param na_values A character value of NA values
+#' @param x A character vector containing shorthand, or a `shrthnd_num()` vector
+#' @param shorthand A character vector of shorthand values to validate tags against
+#' @param na_values A character value of NA values to ignore
 #'
 #' @return A list of shorthand positions in a vector
 #' @export
@@ -13,6 +13,10 @@
 #' @examples
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' shrthnd_list(x)
+#'
+#' sh_x <- shrthnd_num(x)
+#' sh_x
+#' shrthnd_list(sh_x)
 shrthnd_list <- function(x, shorthand = NULL, na_values = "NA") {
   UseMethod("shrthnd_list")
 }

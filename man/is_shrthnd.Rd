@@ -2,6 +2,7 @@
 % Please edit documentation in R/is_shrthnd.R
 \name{is_shrthnd_num}
 \alias{is_shrthnd_num}
+\alias{is_shrthnd}
 \alias{is_shrthnd_integer}
 \alias{is_shrthnd_double}
 \alias{is_shrthnd_list}
@@ -16,14 +17,16 @@ is_shrthnd_double(x)
 is_shrthnd_list(x)
 }
 \arguments{
-\item{x}{A shrthnd object}
+\item{x}{An object to be tested}
 }
 \value{
 A logical vector
 }
 \description{
 The \verb{is_shrthnd_*} family of functions test whether a vector is either a
-\code{shrthnd_num()}, \code{shrthnd_integer()}, \code{shrthnd_double()} or a \code{shrthnd_list()}
+\code{shrthnd_num()}, or a \code{shrthnd_list()}. \code{is_shrthnd_integer()} and
+\code{is_shrthnd_double()} test whether an object is a \code{shrthnd_num()} vector
+and whether the underlying data type is an \code{integer()} or a \code{double()}
 }
 \examples{
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
