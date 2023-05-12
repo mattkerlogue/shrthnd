@@ -54,7 +54,7 @@ re-inserting the shorthand tags.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_shrthnd</span><span class="op">(</span><span class="va">x</span>, digits <span class="op">=</span> <span class="cn">TRUE</span>, .pillar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_shrthnd</span><span class="op">(</span><span class="va">x</span>, digits <span class="op">=</span> <span class="cn">NULL</span>, .pillar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,7 +64,7 @@ re-inserting the shorthand tags.</p>
 
 
 <dt>digits</dt>
-<dd><p>Whether to apply digit formatting</p></dd>
+<dd><p>Number of digits to apply to <code>shrthnd_double</code> vectors</p></dd>
 
 
 <dt>.pillar</dt>
@@ -83,6 +83,9 @@ re-inserting the shorthand tags.</p>
 would expect when calling it on a traditional numeric vector, <code>as_shrthnd()</code>
 returns a character vector combining the numeric vector and the shorthand
 tags.</p>
+<p>When <code>digits = NULL</code> then <code>shrthnd_double</code> vectors are printed with the
+number of digits set in the <code>digits</code> attribute of the vector, setting
+<code>digits</code> in <code>as_shrthnd()</code> will override this value.</p>
     </div>
 
     <div class="section level2">
@@ -90,9 +93,10 @@ tags.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"12"</span>, <span class="st">"34.567"</span>, <span class="st">"[c]"</span>, <span class="st">"NA"</span>, <span class="st">"56.78[e]"</span>, <span class="st">"78.9"</span>, <span class="st">"90.123[e]"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sh_x</span> <span class="op">&lt;-</span> <span class="fu"><a href="shrthnd_num.html">shrthnd_num</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[c]"</span>, <span class="st">"[e]"</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">as_shrthnd</span><span class="op">(</span><span class="va">sh_x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "12.0"    "34.6"    "[c]"     NA        "56.8[e]" "78.9"    "90.1[e]"</span>
-<span class="r-in"><span><span class="fu">as_shrthnd</span><span class="op">(</span><span class="va">sh_x</span>, digits <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "12"    "34"    "[c]"   NA      "56[e]" "78"    "90[e]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "12.0"     "34.6"     "[c]"      NA         "56.8 [e]" "78.9"     "90.1 [e]"</span>
+<span class="r-in"><span><span class="fu">as_shrthnd</span><span class="op">(</span><span class="va">sh_x</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "12.000"     "34.567"     "[c]"        NA           "56.780 [e]"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "78.900"     "90.123 [e]"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
