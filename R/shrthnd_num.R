@@ -16,6 +16,10 @@
 #' `shrthnd_num()` expects character vectors with a numeric component followed
 #' by a non-numeric component, other formats will fail.
 #'
+#' `shrthnd_num` vectors have one of two subclasses, `shrthnd_integer` when
+#' the underlying data is an integer and `shrthnd_double` when the underlying
+#' data is a real number.
+#'
 #' By default `shrthnd_num()` will extract any non-numeric values following
 #' numeric ones and process them as a shorthand tag. However, you can
 #' optionally supply a vector of tags, using the `shorthand` argument, if you
@@ -44,10 +48,9 @@ shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
                         paren_nums = c("negative", "strip")) {
 
   if (!rlang::is_character(x)) {
-    cli::cli_alert_warning(
-      "{.arg x} must be a character vector, input will be coerced"
+    cli::cli_abort(
+      "{.arg x} must be a character vector"
     )
-    x <- as.character(x)
   }
 
   x <- vctrs::vec_data(x)
@@ -56,11 +59,7 @@ shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
   sh_lst <- shrthnd_list(x, shorthand, na_values)
 
   if (is.null(sh_lst)) {
-    ret_x <- utils::type.convert(x, na_values, as.is = TRUE)
-    cli::cli_alert_danger(
-      paste0("{.arg x} returned as {.cls ", class(ret_x)[1], "}")
-    )
-    return(ret_x)
+    cli::cli_abort("unable to convert {.arg x} to a {.cls shrthnd_num}")
   }
 
   tags <- gen_shrthnd_tags(sh_lst, length(x))
@@ -93,13 +92,9 @@ shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
 #' make_shrthnd_num(c(1:3, NA, 4:5, NA), c("", "", "", "[c]", "", "[e]", NA))
 make_shrthnd_num <- function(x = numeric(), tags = character(), digits = 2L) {
 
-  if (is.integer(x)) {
-    x <- vec_cast(x, integer())
-  } else {
-    x <- vec_cast(x, double())
-  }
+  x <- utils::type.convert(x, as.is = TRUE)
 
-  tags <- vec_cast(tags, character())
+  tags <- vctrs::vec_cast(tags, character())
   tags <- gsub("^(\\s)", "", tags)
   tags <- gsub("(\\s)$", "", tags)
 
@@ -116,11 +111,11 @@ new_shrthnd_num <- function(x = numeric(), tags = character(), digits = 2L) {
   }
 
   if (!rlang::is_bare_character(tags)) {
-    cli::cli_abort("{.arg x} must be a numeric vector")
+    cli::cli_abort("{.arg tags} must be a character vector")
   }
 
   if (length(x) != length(tags)) {
-    cli::cli_abort("{.arg x} must be a numeric vector")
+    cli::cli_abort("{.arg x} and {.arg tags} must be the same length")
   }
 
   digits <- vctrs::vec_recycle(vctrs::vec_cast(digits, integer()), 1L)

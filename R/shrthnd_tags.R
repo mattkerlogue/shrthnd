@@ -38,7 +38,8 @@ shrthnd_unique_tags <- function(x) {
 
 #' @export
 shrthnd_unique_tags.shrthnd_num <- function(x, ...) {
-  unique(vctrs::field(x, "tag"))
+  tags <- unique(vctrs::field(x, "tag"))
+  tags[!is.na(tags)]
 }
 
 #' @export

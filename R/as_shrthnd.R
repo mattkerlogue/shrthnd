@@ -8,8 +8,12 @@
 #' returns a character vector combining the numeric vector and the shorthand
 #' tags.
 #'
+#' When `digits = NULL` then `shrthnd_double` vectors are printed with the
+#' number of digits set in the `digits` attribute of the vector, setting
+#' `digits` in `as_shrthnd()` will override this value.
+#'
 #' @param x A [shrthnd_num()] vector
-#' @param digits Whether to apply digit formatting
+#' @param digits Number of digits to apply to `shrthnd_double` vectors
 #' @param .pillar A flag for formatting within the `{pillar}` package
 #'
 #' @return A character vector
@@ -19,8 +23,12 @@
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' sh_x <- shrthnd_num(x, c("[c]", "[e]"), digits = 1)
 #' as_shrthnd(sh_x)
-#' as_shrthnd(sh_x, digits = FALSE)
+#' as_shrthnd(sh_x, digits = 3)
 as_shrthnd <- function(x, digits = NULL, .pillar = FALSE) {
+
+  if (!is_shrthnd_num(x)) {
+    cli::cli_abort("{.arg x} must be a {.cls shrthnd_num}")
+  }
 
   num <- field(x, "num")
   tag <- field(x, "tag")
@@ -30,6 +38,10 @@ as_shrthnd <- function(x, digits = NULL, .pillar = FALSE) {
     if (is.null(digits)) {
       digits <- 2L
     }
+  }
+
+  if (!rlang::is_scalar_integerish(digits)) {
+    cli::cli_abort("{.arg digits} must be a single integer")
   }
 
   if (is_shrthnd_integer(x)) {
