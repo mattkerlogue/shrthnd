@@ -8,6 +8,21 @@ template:
     base_font: {google: "Heebo"}
     code_font: {google: "JetBrains Mono"}
 
-opengraph:
-  image:
-    src: man/figures/shrthnd_hex.png
+  opengraph:
+    image:
+      src: man/figures/shrthnd_hex.png
+
+reference:
+  - title: Construct and validate shrthnd
+    contents:
+      - shrthnd_num
+      - shrthnd_list
+      - make_shrthnd_num
+      - is_shrthnd
+  - title: Work with shrthnd
+    contents:
+      - as_shrthnd
+      - shrthnd_tags
+      - shrthnd_maths
+
+

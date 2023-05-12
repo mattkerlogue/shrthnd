@@ -19,10 +19,16 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/mattkerlogue/shrthnd/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mattkerlogue/shrthnd/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-Data is often published with shorthand and symbols, and regularly these markers
+Data is often published with shorthand and symbols, and regularly these tags
 are found in the same container as the value. The aim of `{shrthnd}` is to
 process character vectors of numerical data that contain non-numeric shorthand
 and symbols.
+
+The most common approach in data processing is to scrub the vector of
+non-numeric characters so that it can be coerced to a numeric vector. However,
+these tags often convey useful information which you may wish to retain. The
+`shrthnd_num()` data type allows you separate these components, use the numeric
+component as desired
 
 ## Installation
 
@@ -33,7 +39,13 @@ You can install the development version of shrthnd like so:
 remotes::install_github("mattkerlogue/shrthnd")
 ```
 
-## Example
+## Usage
+
+Use `shrthnd_num()` to convert a character vector to a `shrthnd_num` vector,
+either a `shrthnd_integer` or a `shrthnd_double` based on the properties of
+the underlying numerical content. This is a `vctrs::vec_rcrd()` data type that
+splits the numeric content and non-numeric tags of the original character
+vector but keeps them together rather than discards them.
 
 ```{r}
 library(shrthnd)
