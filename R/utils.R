@@ -1,3 +1,9 @@
+# herlper functions for constructing shrthnd_num
+
+# generate a regex string with special characters escaped
+# to avoid removing decimal points, period dots are only if the full content
+# e.g. shrthnd_regex(c("[c]", "[e]", ".", "*")) becomes:
+#   "\\[c\\]|\\[e\\]|^.$|\\*"
 shrthnd_regex <- function(string) {
   string <- string[!(string == "")]
   string[string == "."] <- "^.$"
@@ -5,6 +11,7 @@ shrthnd_regex <- function(string) {
   paste0(string, collapse = "|")
 }
 
+# get the non-numeric component of a vector, trimmed for spaces
 extract_text <- function(x, na_values = "NA") {
 
   out <- gsub("(^[-\\(]?\\d+(,\\d+)*(\\.\\d+(e\\d+)?)?\\)?)(.*$)", "\\5", x)
@@ -16,6 +23,8 @@ extract_text <- function(x, na_values = "NA") {
 
 }
 
+# extract the numeric component of a vector
+# accounting formats commonly put parentheses around numbers
 extract_num <- function(x, paren_nums = c("negative", "strip")) {
 
   paren_nums <- match.arg(paren_nums)
@@ -37,6 +46,7 @@ extract_num <- function(x, paren_nums = c("negative", "strip")) {
 
 }
 
+# convert a character vector into a numeric vector
 convert_to_num <- function(x, shorthand, na_values = "NA", paren_nums) {
   x <- gsub(shrthnd_regex(shorthand), "", x)
   x <- gsub("(^[-\\(]?\\d+(,\\d+)*(\\.\\d+(e\\d+)?)?\\)?)(.*$)", "\\1", x)
@@ -44,6 +54,7 @@ convert_to_num <- function(x, shorthand, na_values = "NA", paren_nums) {
   utils::type.convert(x, na_values, as.is = TRUE)
 }
 
+# given a vector of tags check if they are in a vector of shorthand symbols
 validate_tags <- function(x, shorthand) {
 
   if (sum(!(x %in% shorthand)) > 0) {
@@ -54,6 +65,7 @@ validate_tags <- function(x, shorthand) {
 
 }
 
+# get tag locations
 where_tags <- function(tags, unique_tags) {
 
   where <- purrr::map(
@@ -64,6 +76,7 @@ where_tags <- function(tags, unique_tags) {
 
 }
 
+# remove percentage symbol
 strip_percent <- function(x) {
   x <- gsub("%", "", x)
 }
