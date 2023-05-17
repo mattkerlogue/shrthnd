@@ -6,6 +6,8 @@
 #' @param x A character vector containing shorthand, or a `shrthnd_num()` vector
 #' @param shorthand A character vector of shorthand values to validate tags against
 #' @param na_values A character value of NA values to ignore
+#' @param dec The decimal separator for numbers
+#' @param bigmark The separator to the left of the decimal separator
 #'
 #' @return A list of shorthand positions in a vector
 #' @export
@@ -17,7 +19,8 @@
 #' sh_x <- shrthnd_num(x)
 #' sh_x
 #' shrthnd_list(sh_x)
-shrthnd_list <- function(x, shorthand = NULL, na_values = "NA") {
+shrthnd_list <- function(x, shorthand = NULL, na_values = c("", "NA"),
+                         dec = ".", bigmark = ",") {
   UseMethod("shrthnd_list")
 }
 
@@ -26,14 +29,15 @@ shrthnd_list.shrthnd_num <- function(x, ...) {
 
   tags <- shrthnd_tags(x)
   unq_tags <- shrthnd_unique_tags(x)
-  where_shrthnd <- where_tags(tags, unq_tags)
+  where_shrthnd <- find_tag_locations(tags, unq_tags)
 
   new_shrthnd_list(unq_tags, where_shrthnd)
 
 }
 
 #' @export
-shrthnd_list.character <- function(x, shorthand = NULL, na_values = "NA", ...) {
+shrthnd_list.character <- function(x, shorthand = NULL, na_values = c("", "NA"),
+                                   dec = ".", bigmark = ",", ...) {
 
   if (!rlang::is_bare_character(x)) {
     cli::cli_abort("{.arg x} must be a character vector")
@@ -50,7 +54,7 @@ shrthnd_list.character <- function(x, shorthand = NULL, na_values = "NA", ...) {
     cli::cli_abort("{.arg na_values} must be a character vector")
   }
 
-  all_tags <- extract_text(x, na_values)
+  all_tags <- extract_text(x, na_values, dec, bigmark)
   unq_tags <- unique(all_tags)
   unq_tags <- unq_tags[(unq_tags!= "") & !is.na(unq_tags)]
 
@@ -69,7 +73,7 @@ shrthnd_list.character <- function(x, shorthand = NULL, na_values = "NA", ...) {
 
   }
 
-  where_shrthnd <- where_tags(all_tags, unq_tags)
+  where_shrthnd <- find_tag_locations(all_tags, unq_tags)
 
   if (length(where_shrthnd) == 0) {
     cli::cli_alert_warning(

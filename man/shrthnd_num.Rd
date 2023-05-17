@@ -9,7 +9,9 @@ shrthnd_num(
   shorthand = NULL,
   na_values = "NA",
   digits = 2L,
-  paren_nums = c("negative", "strip")
+  paren_nums = c("negative", "strip"),
+  dec = ".",
+  bigmark = ","
 )
 }
 \arguments{
@@ -24,6 +26,10 @@ shrthnd_num(
 \item{paren_nums}{How to handle numbers in parenthesis (e.g. \verb{(12,435.43)}),
 defaults to negative as most commonly used in accounting to denote
 negative values instead of a minus symbol preceding the value}
+
+\item{dec}{The decimal separator for numbers}
+
+\item{bigmark}{The separator to the left of the decimal separator}
 }
 \value{
 A shrthnd_num vector

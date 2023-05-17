@@ -4,7 +4,13 @@
 \alias{shrthnd_list}
 \title{List the shorthand in a vector}
 \usage{
-shrthnd_list(x, shorthand = NULL, na_values = "NA")
+shrthnd_list(
+  x,
+  shorthand = NULL,
+  na_values = c("", "NA"),
+  dec = ".",
+  bigmark = ","
+)
 }
 \arguments{
 \item{x}{A character vector containing shorthand, or a \code{shrthnd_num()} vector}
@@ -12,6 +18,10 @@ shrthnd_list(x, shorthand = NULL, na_values = "NA")
 \item{shorthand}{A character vector of shorthand values to validate tags against}
 
 \item{na_values}{A character value of NA values to ignore}
+
+\item{dec}{The decimal separator for numbers}
+
+\item{bigmark}{The separator to the left of the decimal separator}
 }
 \value{
 A list of shorthand positions in a vector

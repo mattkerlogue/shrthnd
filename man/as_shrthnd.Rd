@@ -4,7 +4,7 @@
 \alias{as_shrthnd}
 \title{Coerce a shrthnd_num to a character vector with shorthand}
 \usage{
-as_shrthnd(x, digits = NULL, .pillar = FALSE)
+as_shrthnd(x, digits = NULL, .pillar = FALSE, ...)
 }
 \arguments{
 \item{x}{A \code{\link[=shrthnd_num]{shrthnd_num()}} vector}
@@ -12,6 +12,8 @@ as_shrthnd(x, digits = NULL, .pillar = FALSE)
 \item{digits}{Number of digits to apply to \code{shrthnd_double} vectors}
 
 \item{.pillar}{A flag for formatting within the \code{{pillar}} package}
+
+\item{...}{Arguments to pass on to \code{\link[=formatC]{formatC()}}}
 }
 \value{
 A character vector

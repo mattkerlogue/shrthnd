@@ -15,6 +15,7 @@
 #' @param x A [shrthnd_num()] vector
 #' @param digits Number of digits to apply to `shrthnd_double` vectors
 #' @param .pillar A flag for formatting within the `{pillar}` package
+#' @param ... Arguments to pass on to [formatC()]
 #'
 #' @return A character vector
 #' @export
@@ -24,7 +25,7 @@
 #' sh_x <- shrthnd_num(x, c("[c]", "[e]"), digits = 1)
 #' as_shrthnd(sh_x)
 #' as_shrthnd(sh_x, digits = 3)
-as_shrthnd <- function(x, digits = NULL, .pillar = FALSE) {
+as_shrthnd <- function(x, digits = NULL, .pillar = FALSE, ...) {
 
   if (!is_shrthnd_num(x)) {
     cli::cli_abort("{.arg x} must be a {.cls shrthnd_num}")
@@ -32,23 +33,32 @@ as_shrthnd <- function(x, digits = NULL, .pillar = FALSE) {
 
   num <- field(x, "num")
   tag <- field(x, "tag")
+  sh_int <- is_shrthnd_integer(x)
 
-  if (is.null(digits)) {
+  dots <- rlang::list2(...)
+
+  dots <- append(dots, list(x = num))
+
+  if (is.null(digits) & !sh_int) {
     digits <- attr(x, "digits")
     if (is.null(digits)) {
       digits <- 2L
     }
   }
 
-  if (!rlang::is_scalar_integerish(digits)) {
+  if (!is.null(digits) & !rlang::is_scalar_integerish(digits)) {
     cli::cli_abort("{.arg digits} must be a single integer")
   }
 
-  if (is_shrthnd_integer(x)) {
-    out <- formatC(num, format = "d", big.mark = ",")
-  } else {
-    out <- formatC(num, digits = digits, format = "f", big.mark = ",")
+  if (!("format" %in% names(dots))) {
+    if (sh_int) {
+      dots <- append(dots, list(format = "d"))
+    } else {
+      dots <- append(dots, list(format = "f", digits = digits))
+    }
   }
+
+  out <- rlang::exec("formatC", !!!dots)
 
   is_na <- is.na(num)
   has_sh <- !is.na(tag)
@@ -58,15 +68,14 @@ as_shrthnd <- function(x, digits = NULL, .pillar = FALSE) {
   if (.pillar) {
     out[is_na & has_sh] <- pillar::style_subtle(tag[is_na & has_sh])
     out[!is_na & has_sh] <- paste0(
-      out[!is_na & has_sh], " ",
+      out[!is_na & has_sh],
       pillar::style_subtle(tag[!is_na & has_sh])
     )
   } else {
     out[is_na & has_sh] <- tag[is_na & has_sh]
-    out[!is_na & has_sh] <- paste0(out[!is_na & has_sh], " ", tag[!is_na & has_sh])
+    out[!is_na & has_sh] <- paste0(out[!is_na & has_sh], tag[!is_na & has_sh])
   }
 
   return(out)
 
 }
-

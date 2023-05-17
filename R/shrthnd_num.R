@@ -30,6 +30,8 @@
 #' @param paren_nums How to handle numbers in parenthesis (e.g. `(12,435.43)`),
 #'   defaults to negative as most commonly used in accounting to denote
 #'   negative values instead of a minus symbol preceding the value
+#' @param dec The decimal separator for numbers
+#' @param bigmark The separator to the left of the decimal separator
 #'
 #' @return A shrthnd_num vector
 #' @export
@@ -38,7 +40,8 @@
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' shrthnd_num(x, c("[c]", "[e]"))
 shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
-                        paren_nums = c("negative", "strip")) {
+                        paren_nums = c("negative", "strip"), dec = ".",
+                        bigmark = ",") {
 
   if (!rlang::is_character(x)) {
     cli::cli_abort(
@@ -59,7 +62,7 @@ shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
   unq_tags <- shrthnd_unique_tags(sh_lst)
 
   paren_nums <- match.arg(paren_nums)
-  base_values <- convert_to_num(x, unq_tags, na_values, paren_nums)
+  base_values <- convert_to_num(x, unq_tags, na_values, paren_nums, dec, bigmark)
 
   if (!is.numeric(base_values)) {
     cli::cli_abort("unable to convert {.arg x} to a numeric vector")
@@ -138,6 +141,13 @@ format.shrthnd_num <- function(x, ...) {
 
 #' @export
 pillar_shaft.shrthnd_num <- function(x, ...) {
-  out <- as_shrthnd(x, .pillar = TRUE, ...)
+
+  if (identical(getOption("OutDec"), ",")) {
+    bm <- "."
+  } else {
+    bm <- ","
+  }
+
+  out <- as_shrthnd(x, .pillar = TRUE, big.mark = bm, ...)
   pillar::new_pillar_shaft_simple(out, align = "right")
 }
