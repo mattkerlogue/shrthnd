@@ -1,7 +1,9 @@
 # helper functions for constructing shrthnd_num
 
-# generate a regex string with special characters escaped
-# to avoid removing decimal points, period dots are only if the full content
+# generate a concatenated regex string with special characters escaped.
+# special character escaping is based on stringr::str_escape() but modified
+#   to avoid removing decimal points, single dot is only included if the
+#   full content.
 # e.g. shrthnd_regex(c("[c]", "[e]", ".", "*")) becomes:
 #   "\\[c\\]|\\[e\\]|^.$|\\*"
 shrthnd_regex <- function(string) {

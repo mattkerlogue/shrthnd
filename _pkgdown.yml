@@ -13,14 +13,16 @@ template:
       src: man/figures/shrthnd_hex.png
 
 reference:
-  - title: Construct and validate shrthnd
+  - title: Construct shrthnd
     contents:
       - shrthnd_num
-      - shrthnd_list
       - make_shrthnd_num
-      - is_shrthnd
+      - shrthnd_list
+      - shrthnd_tbl
   - title: Work with shrthnd
     contents:
+      - is_shrthnd
+      - tag_match
       - as_shrthnd
       - shrthnd_tags
       - shrthnd_maths
