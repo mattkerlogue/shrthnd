@@ -16,11 +16,11 @@ Imports:
     purrr,
     rlang,
     stringr,
+    tibble,
     utils,
     vctrs
 Suggests: 
-    testthat (>= 3.0.0),
-    tibble
+    testthat (>= 3.0.0)
 URL: https://github.com/mattkerlogue/shrthnd, 
     https://mattkerlogue.github.io/shrthnd/
 BugReports: https://github.com/mattkerlogue/shrthnd/issues
