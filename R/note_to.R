@@ -1,14 +1,24 @@
-#' Convert general notes to tibble title or source note
+#' Move notes to and from the title/source note of a tibble
 #'
-#' The `note_to_title()` and `note_to_source_note()` allow you to move a note
-#' from inside the general `shrthnd_notes()` of a `shrthnd_tbl()` and move
-#' them to the `shrthnd_title()` or `shrthnd_source_note()` of the tibble.
+#' A `shrthnd_tbl()` has three sets of [notes][shrthnd_tbl_notes], the
+#' `note_to_*()` functions allow you to move a general note to either the
+#' title or source note of a tibble. the `*_to_notes()`functions do the
+#' opposite and (re)insert either the title and/or source note back into the
+#' general notes.
+#'
+#' For `title_to_notes()` and `title_source_to_notes()` the default is to
+#' (re)insert the note at the start of the set of notes, for
+#' `source_to_notes()` the default is to (re)insert the note at the end of
+#' the set of notes.
 #'
 #' @param x A `shrthnd_tbl()` object
 #' @param note The number of the note to move
 #' @param .overwrite Whether to overwrite existing
+#' @param .add_before Where to (re)insert the note
 #'
 #' @return A `shrthnd_tbl()`
+#'
+#' @rdname note_to
 #' @export
 #'
 #' @examples
@@ -24,6 +34,12 @@
 #' sh_tbl
 #'
 #' shrthnd_notes(sh_tbl)
+#'
+#' sh_tbl <- sh_tbl |>
+#'   title_to_notes()
+#'
+#' shrthnd_notes(sh_tbl)
+#'
 note_to_title <- function(x, note, .overwrite = FALSE) {
 
   chk_shrthnd_tbl(x)
@@ -43,13 +59,13 @@ note_to_title <- function(x, note, .overwrite = FALSE) {
   }
 
   y <- set_tbl_attr(x, "title", value = notes[note], .overwrite)
-  y <- set_tbl_attr(y, "notes", value = notes[-note], .overwrite = TRUE, .append = FALSE)
+  y <- set_tbl_attr(y, "notes", value = notes[-note], .overwrite = TRUE, .add = FALSE)
 
   return(y)
 
 }
 
-#' @rdname note_to_title
+#' @rdname note_to
 #' @export
 note_to_source_note <- function(x, note, .overwrite = FALSE) {
 
@@ -69,9 +85,68 @@ note_to_source_note <- function(x, note, .overwrite = FALSE) {
     cli::cli_abort("{.arg note} must be between 1 and {length(notes)}")
   }
 
-  y <- set_tbl_attr(x, "source_note", value = notes[note], .overwrite)
-  y <- set_tbl_attr(y, "notes", value = notes[-note], .overwrite = TRUE, .append = FALSE)
+  sn <- notes[note]
+  sn <- gsub("^([Dd]ata[-\\s]?)?[Ss]ource(\\s*?[:-]\\s*)(.*)", "\\3", sn, perl = TRUE)
+
+  y <- set_tbl_attr(x, "source_note", value = sn, .overwrite)
+  y <- set_tbl_attr(y, "notes", value = notes[-note], .overwrite = TRUE, .add = FALSE)
 
   return(y)
 
 }
+
+#' @rdname note_to
+#' @export
+title_to_notes <- function(x, .add_before = 0) {
+
+  tn <- shrthnd_title(x)
+
+  y <- set_tbl_attr(x, "notes", tn, .overwrite = TRUE, .add = TRUE,
+                    .add_before = .add_before)
+
+  y <- zap_title(y)
+
+  return(y)
+
+}
+
+#' @rdname note_to
+#' @export
+source_to_notes <- function(x, .add_before = Inf) {
+
+  sn <- shrthnd_source_note(x)
+
+  if (!grepl("^([Dd]ata[-\\s]?)?[Ss]ource(\\s*?[:-]\\s*)", sn)) {
+    sn <- paste("Source:", sn)
+  }
+
+  y <- set_tbl_attr(x, "notes", sn, .overwrite = TRUE, .add = TRUE,
+                    .add_before = .add_before)
+
+  y <- zap_source_note(y)
+
+  return(y)
+
+}
+
+#' @rdname note_to
+#' @export
+title_source_to_notes <- function(x, .add_before = 0) {
+
+  tn <- shrthnd_title(x)
+  sn <- shrthnd_source_note(x)
+
+  if (!grepl("^([Dd]ata[-\\s]?)?[Ss]ource(\\s*?[:-]\\s*)", sn)) {
+    sn <- paste("Source:", sn)
+  }
+
+  y <- set_tbl_attr(x, "notes", c(tn, sn), .overwrite = TRUE, .add = TRUE,
+                    .add_before = .add_before)
+
+  y <- zap_title(y)
+  y <- zap_source_note(y)
+
+  return(y)
+
+}
+

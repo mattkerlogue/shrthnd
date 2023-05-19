@@ -23,8 +23,10 @@
 #' @param what Which note to set, one of `title`, `source_note` or `notes`
 #' @param value The value to set
 #' @param .overwrite Whether an existing value should be overwritten
-#' @param .append When `what = "notes"`, whether to append to the existing
+#' @param .add When `what = "notes"`, whether to append to the existing
 #'   set of notes
+#' @param .add_before When adding notes, where to add the note (defaults to
+#'   the end of the current set of notes)
 #'
 #' @return For `shrthnd_title()`, `shrthnd_source_note()` and `shrthnd_notes()`
 #'   a character vector of the note(s). For the setting functions returns
@@ -98,35 +100,38 @@ shrthnd_notes <- function(x) {
 #' @export
 #' @rdname shrthnd_tbl_notes
 `shrthnd_notes<-` <- function(x, value) {
-  set_notes(x, value, .overwrite = TRUE, .append = FALSE)
+  set_notes(x, value, .overwrite = TRUE, .add = FALSE)
 }
 
 #' @export
 #' @rdname shrthnd_tbl_notes
-set_notes <- function(x, value, .overwrite = FALSE, .append = FALSE) {
-  set_tbl_attr(x, "notes", value, .overwrite, .append)
+set_notes <- function(x, value, .overwrite = FALSE) {
+  set_tbl_attr(x, "notes", value, .overwrite)
 }
 
 #' @export
 #' @rdname shrthnd_tbl_notes
-add_notes <- function(x, value, .overwrite = TRUE, .append = TRUE) {
-  set_tbl_attr(x, "notes", value, .overwrite, .append)
+add_notes <- function(x, value, .add_before = Inf) {
+  set_tbl_attr(x, "notes", value, .overwrite = TRUE, .add = TRUE,
+               .add_before = .add_before)
 }
 
 #' @export
 #' @rdname shrthnd_tbl_notes
 `add_notes<-` <- function(x, value) {
-  set_tbl_attr(x, "notes", value, .overwrite = TRUE, .append = TRUE)
+  set_tbl_attr(x, "notes", value, .overwrite = TRUE, .add = TRUE,
+               .add_before = Inf)
 }
 
 #' @export
 #' @rdname shrthnd_tbl_notes
 set_tbl_attr <- function(x, what = c("title", "source_note", "notes"),
-                             value, .overwrite = FALSE, .append = FALSE) {
+                         value, .overwrite = FALSE, .add = FALSE,
+                         .add_before = Inf) {
 
   chk_shrthnd_tbl(x)
 
-  what <- match.arg(what)
+  what <- rlang::arg_match(what)
 
   what_attr <- paste0("shrthnd_", what)
 
@@ -135,35 +140,60 @@ set_tbl_attr <- function(x, what = c("title", "source_note", "notes"),
   if (what_attr == "shrthnd_notes") {
 
     if(!rlang::is_character(value)) {
-      cli::cli_abort("{.arg value} must be a character vector")
+      cli::cli_abort("{.arg value} for {.arg {what_attr}} must be a character vector")
     }
 
-    if (.append) {
+    if(!rlang::is_scalar_logical(.add)) {
+      cli::cli_abort("{.arg add} must be a logical vector of length 1")
+    }
 
-      attr(x, what_attr) <- c(curr_attr, value)
-      return(invisible(x))
+    if (.add) {
+
+      if(!rlang::is_scalar_integerish(.add_before)) {
+        cli::cli_abort("{.arg .add_before} must be an integer vector of length 1")
+      }
+
+      if (.add_before > length(curr_attr)) {
+        .add_before <- Inf
+      }
+
+      if (.add_before == Inf) {
+        attr(x, what_attr) <- c(curr_attr, value)
+      } else if (.add_before == 0L | .add_before == 1L) {
+        attr(x, what_attr) <- c(value, curr_attr)
+      } else {
+        attr(x, what_attr) <- c(
+          curr_attr[1:(.add_before-1)],
+          value,
+          curr_attr[.add_before:length(curr_attr)]
+        )
+      }
+
+      return(x)
 
     }
 
   } else {
 
     if (!rlang::is_scalar_vector(value)) {
-      cli::cli_abort(
-        "{.arg value} for {.arg {what_attr}} must be a character vector of length 1"
-      )
+      cli::cli_abort("{.arg value} for {.arg {what_attr}} must be a character vector of length 1")
     }
 
+  }
+
+  if(!rlang::is_scalar_logical(.overwrite)) {
+    cli::cli_abort("{.arg overwrtie} must be a logical vector of length 1")
   }
 
   if (is.null(curr_attr)) {
 
     attr(x, what_attr) <- value
-    return(invisible(x))
+    return(x)
 
   } else if (.overwrite) {
 
     attr(x, what_attr) <- value
-    return(invisible(x))
+    return(x)
 
   } else {
 
