@@ -31,7 +31,7 @@
     <loc>https://mattkerlogue.github.io/shrthnd/reference/make_shrthnd_num.html</loc>
   </url>
   <url>
-    <loc>https://mattkerlogue.github.io/shrthnd/reference/note_to_title.html</loc>
+    <loc>https://mattkerlogue.github.io/shrthnd/reference/note_to.html</loc>
   </url>
   <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/shrthnd_list.html</loc>
@@ -56,5 +56,8 @@
   </url>
   <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/where_shrthnd_cols.html</loc>
+  </url>
+  <url>
+    <loc>https://mattkerlogue.github.io/shrthnd/reference/zap_shrthnd.html</loc>
   </url>
 </urlset>
