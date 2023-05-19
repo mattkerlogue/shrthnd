@@ -1,6 +1,6 @@
 #' Move notes to and from the title/source note of a tibble
 #'
-#' A `shrthnd_tbl()` has three sets of [notes][shrthnd_tbl_notes], the
+#' A `shrthnd_tbl()` has three sets of [notes][tbl_notes], the
 #' `note_to_*()` functions allow you to move a general note to either the
 #' title or source note of a tibble. the `*_to_notes()`functions do the
 #' opposite and (re)insert either the title and/or source note back into the

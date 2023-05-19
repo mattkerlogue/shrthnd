@@ -34,9 +34,6 @@
 #'
 #' @family tbl
 #'
-#' @export
-#' @rdname shrthnd_tbl_notes
-#'
 #' @examples
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' sh_x <- shrthnd_num(x, c("[c]", "[e]"))
@@ -56,77 +53,82 @@
 #' add_notes(sh_tbl) <- "Note 3"
 #' shrthnd_notes(sh_tbl)
 #'
+#' @name tbl_notes
+NULL
+
+#' @rdname tbl_notes
+#' @export
 shrthnd_title <- function(x) {
   chk_shrthnd_tbl(x)
   return(attr(x, "shrthnd_title"))
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 `shrthnd_title<-` <- function(x, value) {
   set_title(x, value, .overwrite = TRUE)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 set_title <- function(x, value, .overwrite = FALSE) {
   set_tbl_attr(x, "title", value, .overwrite)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 shrthnd_source_note <- function(x) {
   chk_shrthnd_tbl(x)
   return(attr(x, "shrthnd_source_note"))
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 `shrthnd_source_note<-` <- function(x, value) {
   set_source_note(x, value, .overwrite = TRUE)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 set_source_note <- function(x, value, .overwrite = FALSE) {
   set_tbl_attr(x, "source_note", value, .overwrite)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 shrthnd_notes <- function(x) {
   chk_shrthnd_tbl(x)
   return(attr(x, "shrthnd_notes"))
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 `shrthnd_notes<-` <- function(x, value) {
-  set_notes(x, value, .overwrite = TRUE, .add = FALSE)
+  set_notes(x, value, .overwrite = TRUE)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 set_notes <- function(x, value, .overwrite = FALSE) {
   set_tbl_attr(x, "notes", value, .overwrite)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 add_notes <- function(x, value, .add_before = Inf) {
   set_tbl_attr(x, "notes", value, .overwrite = TRUE, .add = TRUE,
                .add_before = .add_before)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 `add_notes<-` <- function(x, value) {
   set_tbl_attr(x, "notes", value, .overwrite = TRUE, .add = TRUE,
                .add_before = Inf)
 }
 
+#' @rdname tbl_notes
 #' @export
-#' @rdname shrthnd_tbl_notes
 set_tbl_attr <- function(x, what = c("title", "source_note", "notes"),
                          value, .overwrite = FALSE, .add = FALSE,
                          .add_before = Inf) {

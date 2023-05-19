@@ -37,7 +37,7 @@ shrthnd_tbl(
 
 
 \code{\link{note_to_title}()},
-\code{\link{shrthnd_title}()},
+\code{\link{tbl_notes}},
 \code{\link{zap_shrthnd}()}
 }
 \concept{tbl}

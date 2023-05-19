@@ -31,7 +31,7 @@ title_source_to_notes(x, .add_before = 0)
 A \code{shrthnd_tbl()}
 }
 \description{
-A \code{shrthnd_tbl()} has three sets of \link[=shrthnd_tbl_notes]{notes}, the
+A \code{shrthnd_tbl()} has three sets of \link[=tbl_notes]{notes}, the
 \verb{note_to_*()} functions allow you to move a general note to either the
 title or source note of a tibble. the \verb{*_to_notes()}functions do the
 opposite and (re)insert either the title and/or source note back into the
@@ -66,7 +66,7 @@ shrthnd_notes(sh_tbl)
 \seealso{
 
 \code{\link{shrthnd_tbl}()},
-\code{\link{shrthnd_title}()},
+\code{\link{tbl_notes}},
 \code{\link{zap_shrthnd}()}
 }
 \concept{tbl}

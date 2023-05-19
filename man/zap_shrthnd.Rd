@@ -67,6 +67,6 @@ zap_tbl(sh_tbl)
 
 \code{\link{note_to_title}()},
 \code{\link{shrthnd_tbl}()},
-\code{\link{shrthnd_title}()}
+\code{\link{tbl_notes}}
 }
 \concept{tbl}
