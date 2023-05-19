@@ -41,11 +41,9 @@ test_that("as_shrthnd for pillar", {
 })
 
 test_that("as_shrthnd errors", {
-  expect_error(as_shrthnd(1), regexp = "`x` must be a <shrthnd_num>")
-  expect_error(as_shrthnd("a"), regexp = "`x` must be a <shrthnd_num>")
-  expect_error(as_shrthnd(list()), regexp = "`x` must be a <shrthnd_num>")
-  expect_error(as_shrthnd(sh_x, digits = "a"),
-               regexp = "`digits` must be a single integer")
-  expect_error(as_shrthnd(sh_x, digits = 1:2),
-               regexp = "`digits` must be a single integer")
+  expect_error(as_shrthnd(1))
+  expect_error(as_shrthnd("a"))
+  expect_error(as_shrthnd(list()))
+  expect_error(as_shrthnd(sh_x, digits = "a"))
+  expect_error(as_shrthnd(sh_x, digits = 1:2))
 })

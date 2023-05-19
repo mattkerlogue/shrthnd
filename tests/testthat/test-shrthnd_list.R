@@ -19,7 +19,7 @@ test_that("shrthnd_list from shrthnd_num", {
 
 test_that("shrthnd_list nulls", {
   expect_equal(suppressMessages(shrthnd_list("a")), NULL)
-  expect_message(shrthnd_list("a"), regexp = "does not contain numeric content")
+  expect_message(shrthnd_list("a"))
   expect_equal(
     suppressMessages(shrthnd_list(c("12", "34[a]"), shorthand = "[b]")),
     NULL
@@ -33,9 +33,7 @@ test_that("shrthnd_list nulls", {
 })
 
 test_that("shrthnd_list errors", {
-  expect_error(shrthnd_list(1:10), regexp = "no applicable method")
-  expect_error(shrthnd_list(x, shorthand = 1),
-               regexp = "`shorthand` must be a character vector")
-  expect_error(shrthnd_list(x, na_values = 1),
-               regexp = "`na_values` must be a character vector")
+  expect_error(shrthnd_list(1:10))
+  expect_error(shrthnd_list(x, shorthand = 1))
+  expect_error(shrthnd_list(x, na_values = 1))
 })

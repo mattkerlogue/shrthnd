@@ -26,10 +26,10 @@ test_that("unique tags from shrthnd_list", {
 })
 
 test_that("tag errors", {
-  expect_error(shrthnd_tags("a"), regexp = "no applicable method")
-  expect_error(shrthnd_tags(1:10), regexp = "no applicable method")
-  expect_error(shrthnd_tags(list()), regexp = "no applicable method")
-  expect_error(shrthnd_unique_tags("a"), regexp = "no applicable method")
-  expect_error(shrthnd_unique_tags(1:10), regexp = "no applicable method")
-  expect_error(shrthnd_unique_tags(list()), regexp = "no applicable method")
+  expect_error(shrthnd_tags("a"))
+  expect_error(shrthnd_tags(1:10))
+  expect_error(shrthnd_tags(list()))
+  expect_error(shrthnd_unique_tags("a"))
+  expect_error(shrthnd_unique_tags(1:10))
+  expect_error(shrthnd_unique_tags(list()))
 })

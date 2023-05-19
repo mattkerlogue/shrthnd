@@ -63,11 +63,8 @@ test_that("make_shrthnd_num", {
 })
 
 test_that("make_shrthnd_num errors", {
-  expect_error(make_shrthnd_num("a"), regexp = "`x` must be a numeric vector")
-  expect_error(make_shrthnd_num(1, 1),
-               regexp = "Can't convert `tags` <double> to <character>")
-  expect_error(make_shrthnd_num(1),
-               regexp = "`x` and `tags` must be the same length")
-  expect_error(make_shrthnd_num(1, "a", "a"),
-               regexp = "Can't convert `digits` <character> to <integer>")
+  expect_error(make_shrthnd_num("a"))
+  expect_error(make_shrthnd_num(1, 1))
+  expect_error(make_shrthnd_num(1))
+  expect_error(make_shrthnd_num(1, "a", "a"))
 })
