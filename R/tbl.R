@@ -41,16 +41,10 @@ new_shrthnd_tbl <- function(x, title = NULL, notes = NULL, source_note = NULL) {
     cli::cli_abort("{.arg source_note} must be a character vector of length 1 or NULL")
   }
 
-  if (is.null(title) & is.null(source_note) & is.null(notes)) {
-    cli::cli_warn(
-      "{.arg {c(\"title\", \"source_note\", \"notes\")}} are all NULL, returning
-      as a bare {.fun tibble::tibble}"
-    )
-    tibble::new_tibble(x)
-  } else {
-    tibble::new_tibble(x, shrthnd_title = title, shrthnd_source = source_note,
-                       shrthnd_notes = notes, class = "shrthnd_tbl")
-  }
+  tibble::new_tibble(
+    x, shrthnd_title = title, shrthnd_source_note = source_note,
+    shrthnd_notes = notes, class = "shrthnd_tbl"
+  )
 
 }
 
@@ -64,7 +58,7 @@ tbl_sum.shrthnd_tbl <- function(x) {
 tbl_format_footer.shrthnd_tbl <- function(x, setup, ...) {
 
   notes <- attr(x, "shrthnd_notes")
-  source_note <- attr(x, "shrthnd_source")
+  source_note <- attr(x, "shrthnd_source_note")
 
   nnotes <- length(notes)
 
@@ -75,7 +69,7 @@ tbl_format_footer.shrthnd_tbl <- function(x, setup, ...) {
       "#",
       cli::symbol$star,
       cli::pluralize(
-        "There {cli::qty(nnotes)}{?is/are} {nnotes} note{?s}, use `shrthnd_tbl_notes(x)` to view"
+        "There {cli::qty(nnotes)}{?is/are} {nnotes} note{?s}, use `shrthnd_notes(x)` to view"
       )
     )
   } else {
@@ -92,6 +86,10 @@ tbl_format_footer.shrthnd_tbl <- function(x, setup, ...) {
   } else {
     shrthnd_source <- NULL
   }
+
+  c(base_footer, pillar::style_subtle(c(shrthnd_source, shrthnd_notes)))
+
+}
 
 
 #' Identify which columns use shrthnd
