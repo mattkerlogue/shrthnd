@@ -17,6 +17,8 @@
 #'   `any_shrthnd_cols()` either `TRUE` if there are any `shrthnd_num()`
 #'   vectors in the object or `FALSE` if not.
 #'
+#' @seealso [shrthnd_num()]
+#'
 #' @export
 #'
 #' @examples

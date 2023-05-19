@@ -27,3 +27,10 @@ sh_x <- shrthnd_num(x, c("[c]", "[e]"))
 shrthnd_tags(sh_x)
 shrthnd_unique_tags(sh_x)
 }
+\seealso{
+\code{\link[=shrthnd_num]{shrthnd_num()}}
+
+
+\code{\link{tag_match}()}
+}
+\concept{tag}

@@ -32,6 +32,8 @@
 #'   a character vector of the note(s). For the setting functions returns
 #'   invisibly either `x` if the attribute was set or `NULL` if not.
 #'
+#' @family tbl
+#'
 #' @export
 #' @rdname shrthnd_tbl_notes
 #'

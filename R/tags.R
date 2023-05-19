@@ -8,6 +8,10 @@
 #' @param x A `shrthnd_num()` vector
 #'
 #' @return A character vector
+#'
+#' @seealso [shrthnd_num()]
+#' @family tag
+#'
 #' @export
 #' @rdname shrthnd_tags
 #'

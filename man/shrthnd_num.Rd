@@ -63,3 +63,13 @@ the \code{digits} argument will be used to format the display of the
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 shrthnd_num(x, c("[c]", "[e]"))
 }
+\seealso{
+\code{\link[=shrthnd_tags]{shrthnd_tags()}}
+
+
+\code{\link{as_shrthnd}()},
+\code{\link{is_shrthnd_num}()},
+\code{\link{make_shrthnd_num}()},
+\code{\link{shrthnd_maths}}
+}
+\concept{num}

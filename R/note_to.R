@@ -18,6 +18,8 @@
 #'
 #' @return A `shrthnd_tbl()`
 #'
+#' @family tbl
+#'
 #' @rdname note_to
 #' @export
 #'

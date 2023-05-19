@@ -34,6 +34,10 @@
 #' @param bigmark The separator to the left of the decimal separator
 #'
 #' @return A shrthnd_num vector
+#'
+#' @family num
+#' @seealso [shrthnd_tags()]
+#'
 #' @export
 #'
 #' @examples
@@ -82,6 +86,9 @@ shrthnd_num <- function(x, shorthand = NULL, na_values = "NA", digits = 2L,
 #' @param digits The number of digits to format the numeric vector with
 #'
 #' @return A `shrthnd_num` vector
+#'
+#' @family num
+#'
 #' @export
 #'
 #' @examples

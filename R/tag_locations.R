@@ -26,6 +26,8 @@
 #' `locate_no_tag()` an integer vector. For `tag_in()`, `where_tag()`,
 #' `any_tag()` and `no_tag()` a logical vector.
 #'
+#' @family tag
+#'
 #' @rdname tag_locations
 #' @export
 #'

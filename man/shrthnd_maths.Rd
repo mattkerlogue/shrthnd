@@ -48,3 +48,11 @@ sh_x * 2
 mean(sh_x, na.rm = TRUE)
 
 }
+\seealso{
+
+\code{\link{as_shrthnd}()},
+\code{\link{is_shrthnd_num}()},
+\code{\link{make_shrthnd_num}()},
+\code{\link{shrthnd_num}()}
+}
+\concept{num}

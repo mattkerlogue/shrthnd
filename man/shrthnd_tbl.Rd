@@ -32,3 +32,12 @@ shrthnd_tbl(
   source_note = "Shrthnd documentation, 2023"
 )
 }
+\seealso{
+\code{\link[=is_shrthnd_tbl]{is_shrthnd_tbl()}}
+
+
+\code{\link{note_to_title}()},
+\code{\link{shrthnd_title}()},
+\code{\link{zap_shrthnd}()}
+}
+\concept{tbl}

@@ -79,3 +79,8 @@ locate_any_tag(sh_x)
 
 locate_no_tag(sh_x)
 }
+\seealso{
+
+\code{\link{shrthnd_tags}()}
+}
+\concept{tag}

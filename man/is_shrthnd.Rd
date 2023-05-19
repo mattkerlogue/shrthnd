@@ -50,3 +50,11 @@ tbl <- tibble::tibble(x = x, sh_x = sh_x)
 sh_tbl <- shrthnd_tbl(tbl, title = "Example table")
 is_shrthnd_tbl(sh_tbl)
 }
+\seealso{
+
+\code{\link{as_shrthnd}()},
+\code{\link{make_shrthnd_num}()},
+\code{\link{shrthnd_maths}},
+\code{\link{shrthnd_num}()}
+}
+\concept{num}

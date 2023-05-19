@@ -38,3 +38,11 @@ sh_x <- shrthnd_num(x, c("[c]", "[e]"), digits = 1)
 as_shrthnd(sh_x)
 as_shrthnd(sh_x, digits = 3)
 }
+\seealso{
+
+\code{\link{is_shrthnd_num}()},
+\code{\link{make_shrthnd_num}()},
+\code{\link{shrthnd_maths}},
+\code{\link{shrthnd_num}()}
+}
+\concept{num}

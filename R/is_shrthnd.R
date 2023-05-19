@@ -9,6 +9,8 @@
 #' @param x An object to be tested
 #'
 #' @return A logical vector
+#' @family num
+#'
 #' @export
 #' @rdname is_shrthnd
 #' @aliases is_shrthnd
@@ -37,7 +39,7 @@ is_shrthnd_num <- function(x) {
 #' @export
 #' @rdname is_shrthnd
 is_shrthnd_integer <- function(x) {
-  cls <- inherits(x, "shrthnd_num")
+  cls <- is_shrthnd_num(x)
   if (!cls) {
     return(FALSE)
   }
@@ -48,7 +50,7 @@ is_shrthnd_integer <- function(x) {
 #' @export
 #' @rdname is_shrthnd
 is_shrthnd_double <- function(x) {
-  cls <- inherits(x, "shrthnd_num")
+  cls <- is_shrthnd_num(x)
   if (!cls) {
     return(FALSE)
   }

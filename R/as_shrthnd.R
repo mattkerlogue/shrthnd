@@ -18,6 +18,9 @@
 #' @param ... Arguments to pass on to [formatC()]
 #'
 #' @return A character vector
+#'
+#' @family num
+#'
 #' @export
 #'
 #' @examples
@@ -27,9 +30,7 @@
 #' as_shrthnd(sh_x, digits = 3)
 as_shrthnd <- function(x, digits = NULL, .pillar = FALSE, ...) {
 
-  if (!is_shrthnd_num(x)) {
-    cli::cli_abort("{.arg x} must be a {.cls shrthnd_num}")
-  }
+  chk_shrthnd_num(x)
 
   num <- field(x, "num")
   tag <- field(x, "tag")

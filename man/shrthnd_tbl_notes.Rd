@@ -31,9 +31,9 @@ shrthnd_notes(x)
 
 shrthnd_notes(x) <- value
 
-set_notes(x, value, .overwrite = FALSE, .append = FALSE)
+set_notes(x, value, .overwrite = FALSE)
 
-add_notes(x, value, .overwrite = TRUE, .append = TRUE)
+add_notes(x, value, .add_before = Inf)
 
 add_notes(x) <- value
 
@@ -42,7 +42,8 @@ set_tbl_attr(
   what = c("title", "source_note", "notes"),
   value,
   .overwrite = FALSE,
-  .append = FALSE
+  .add = FALSE,
+  .add_before = Inf
 )
 }
 \arguments{
@@ -52,10 +53,13 @@ set_tbl_attr(
 
 \item{.overwrite}{Whether an existing value should be overwritten}
 
-\item{.append}{When \code{what = "notes"}, whether to append to the existing
-set of notes}
+\item{.add_before}{When adding notes, where to add the note (defaults to
+the end of the current set of notes)}
 
 \item{what}{Which note to set, one of \code{title}, \code{source_note} or \code{notes}}
+
+\item{.add}{When \code{what = "notes"}, whether to append to the existing
+set of notes}
 }
 \value{
 For \code{shrthnd_title()}, \code{shrthnd_source_note()} and \code{shrthnd_notes()}
@@ -103,3 +107,10 @@ add_notes(sh_tbl) <- "Note 3"
 shrthnd_notes(sh_tbl)
 
 }
+\seealso{
+
+\code{\link{note_to_title}()},
+\code{\link{shrthnd_tbl}()},
+\code{\link{zap_shrthnd}()}
+}
+\concept{tbl}

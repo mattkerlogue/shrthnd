@@ -38,3 +38,6 @@ sh_x <- shrthnd_num(x)
 sh_x
 shrthnd_list(sh_x)
 }
+\seealso{
+\code{\link[=is_shrthnd_list]{is_shrthnd_list()}} \code{\link[=shrthnd_num]{shrthnd_num()}}
+}

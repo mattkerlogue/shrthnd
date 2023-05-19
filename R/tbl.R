@@ -6,6 +6,10 @@
 #' @param source_note A character vector for a source note
 #'
 #' @return A tibble with shrthnd annotations
+#'
+#' @seealso [is_shrthnd_tbl()]
+#' @family tbl
+#'
 #' @export
 #'
 #' @examples

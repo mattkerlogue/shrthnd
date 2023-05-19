@@ -17,6 +17,8 @@
 #'
 #' @return Returns `x` with relevant attributes removed
 #'
+#' @family tbl
+#'
 #' @examples
 #' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
 #' sh_x <- shrthnd_num(x, c("[c]", "[e]"))

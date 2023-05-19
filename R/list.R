@@ -10,6 +10,9 @@
 #' @param bigmark The separator to the left of the decimal separator
 #'
 #' @return A list of shorthand positions in a vector
+#'
+#' @seealso [is_shrthnd_list()] [shrthnd_num()]
+#'
 #' @export
 #'
 #' @examples

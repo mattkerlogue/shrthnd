@@ -13,21 +13,26 @@ template:
       src: man/figures/shrthnd_hex.png
 
 reference:
-  - title: Construct shrthnd
+  - title: Create shrthnd vectors
     contents:
       - shrthnd_num
       - make_shrthnd_num
-      - shrthnd_list
-      - shrthnd_tbl
-  - title: Work with shrthnd
+  - title: Use shrthnd vectors
     contents:
-      - is_shrthnd
-      - tag_match
       - as_shrthnd
-      - shrthnd_tags
+      - is_shrthnd
+      - shrthnd_list
       - shrthnd_maths
       - where_shrthnd_cols
+  - title: Work with the tags in a shrthnd vector
+    contents:
+      - shrthnd_tags
+      - tag_match
+  - title: Add notes to tibbles
+    contents:
+      - shrthnd_tbl
       - set_tbl_attr
       - note_to_title
+      - zap_shrthnd
 
 
