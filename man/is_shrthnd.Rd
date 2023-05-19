@@ -6,7 +6,8 @@
 \alias{is_shrthnd_integer}
 \alias{is_shrthnd_double}
 \alias{is_shrthnd_list}
-\title{shrthnd predicates}
+\alias{is_shrthnd_tbl}
+\title{Test if an object is using shrthnd}
 \usage{
 is_shrthnd_num(x)
 
@@ -15,6 +16,8 @@ is_shrthnd_integer(x)
 is_shrthnd_double(x)
 
 is_shrthnd_list(x)
+
+is_shrthnd_tbl(x)
 }
 \arguments{
 \item{x}{An object to be tested}
@@ -26,7 +29,8 @@ A logical vector
 The \verb{is_shrthnd_*} family of functions test whether a vector is either a
 \code{shrthnd_num()}, or a \code{shrthnd_list()}. \code{is_shrthnd_integer()} and
 \code{is_shrthnd_double()} test whether an object is a \code{shrthnd_num()} vector
-and whether the underlying data type is an \code{integer()} or a \code{double()}
+and whether the underlying data type is an \code{integer()} or a \code{double()}.
+\code{is_shrthnd_tbl()} test whether an object is a \code{shrthnd_tbl()} tibble.
 }
 \examples{
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
@@ -41,4 +45,8 @@ is_shrthnd_integer(sh_y)
 
 sh_l <- shrthnd_list(sh_x)
 is_shrthnd_list(sh_l)
+
+tbl <- tibble::tibble(x = x, sh_x = sh_x)
+sh_tbl <- shrthnd_tbl(tbl, title = "Example table")
+is_shrthnd_tbl(sh_tbl)
 }

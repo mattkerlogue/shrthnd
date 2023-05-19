@@ -26,5 +26,8 @@ reference:
       - as_shrthnd
       - shrthnd_tags
       - shrthnd_maths
+      - where_shrthnd_cols
+      - set_tbl_attr
+      - note_to_title
 
 
