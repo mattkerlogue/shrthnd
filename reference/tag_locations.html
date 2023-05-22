@@ -65,7 +65,9 @@ the same functionality but applied to the tag component.</p>
 <span></span>
 <span><span class="fu">any_tag</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">no_tag</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu">is_na_tag</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">is_na_both</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">locate_tag</span><span class="op">(</span><span class="va">x</span>, <span class="va">tag</span><span class="op">)</span></span>
 <span></span>
@@ -90,7 +92,7 @@ the same functionality but applied to the tag component.</p>
 
 <p>For <code>tag_match()</code>, <code>locate_tag()</code>, <code>locate_any_tag()</code> and
 <code>locate_no_tag()</code> an integer vector. For <code>tag_in()</code>, <code>where_tag()</code>,
-<code>any_tag()</code> and <code>no_tag()</code> a logical vector.</p>
+<code>any_tag()</code>, <code>is_na_tag()</code> and <code>is_na_both()</code> a logical vector.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -101,17 +103,26 @@ integer vector showing the first location of the tag provided, <code>tag_in()</c
 will return <code>TRUE</code> or <code>FALSE</code> depending on whether the tag is in the
 vector's shorthand.</p>
 <p><code>where_tag()</code> is equivalent to computing <code>tags == tag</code>, <code>any_tag()</code> is
-equivalent to <code>is.na(tags)</code>, while <code>no_tag()</code> is equivalent to <code>is.na(tags)</code>.
-They return a logical vector the same length as <code>x</code>.</p>
+equivalent to <code>is.na(tags)</code>, while <code>is_na_tag()</code> is equivalent to
+<code>is.na(tags)</code>. Using <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> on a <code><a href="shrthnd_num.html">shrthnd_num()</a></code> will assess if the
+numeric component is missing, <code>is_na_both()</code> tests if both the numeric and
+tag components of a <code><a href="shrthnd_num.html">shrthnd_num()</a></code> are missing. They return a logical
+vector the same length as <code>x</code>.</p>
 <p><code>locate_tag()</code>, <code>locate_any_tag()</code>, <code>located_no_tag()</code> are equivalent to
-passing the return values of <code>where_tag()</code>, <code>any_tag()</code> and <code>no_tag()</code> to
+passing the return values of <code>where_tag()</code>, <code>any_tag()</code> and <code>is_na_tag()</code> to
 <code><a href="https://rdrr.io/r/base/which.html" class="external-link">which()</a></code>. They return an integer vector the same length as <code>x</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
 
-<p><code><a href="shrthnd_tags.html">shrthnd_tags</a>()</code></p></div>
+<p><code><a href="as_shrthnd.html">as_shrthnd</a>()</code>,
+<code><a href="is_shrthnd.html">is_shrthnd_num</a>()</code>,
+<code><a href="make_shrthnd_num.html">make_shrthnd_num</a>()</code>,
+<code><a href="shrthnd_coercion.html">shrthnd_coercion</a></code>,
+<code><a href="shrthnd_maths.html">shrthnd_maths</a></code>,
+<code><a href="shrthnd_num.html">shrthnd_num</a>()</code>,
+<code><a href="shrthnd_tags.html">shrthnd_tags</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -133,7 +144,7 @@ passing the return values of <code>where_tag()</code>, <code>any_tag()</code> an
 <span class="r-in"><span><span class="fu">any_tag</span><span class="op">(</span><span class="va">sh_x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">no_tag</span><span class="op">(</span><span class="va">sh_x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">is_na_tag</span><span class="op">(</span><span class="va">sh_x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">locate_tag</span><span class="op">(</span><span class="va">sh_x</span>, <span class="st">"[e]"</span><span class="op">)</span></span></span>
