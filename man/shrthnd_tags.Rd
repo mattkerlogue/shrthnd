@@ -28,9 +28,13 @@ shrthnd_tags(sh_x)
 shrthnd_unique_tags(sh_x)
 }
 \seealso{
-\code{\link[=shrthnd_num]{shrthnd_num()}}
 
-
+\code{\link{as_shrthnd}()},
+\code{\link{is_shrthnd_num}()},
+\code{\link{make_shrthnd_num}()},
+\code{\link{shrthnd_coercion}},
+\code{\link{shrthnd_maths}},
+\code{\link{shrthnd_num}()},
 \code{\link{tag_match}()}
 }
-\concept{tag}
+\concept{num}

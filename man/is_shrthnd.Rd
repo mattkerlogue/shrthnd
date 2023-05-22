@@ -54,7 +54,10 @@ is_shrthnd_tbl(sh_tbl)
 
 \code{\link{as_shrthnd}()},
 \code{\link{make_shrthnd_num}()},
+\code{\link{shrthnd_coercion}},
 \code{\link{shrthnd_maths}},
-\code{\link{shrthnd_num}()}
+\code{\link{shrthnd_num}()},
+\code{\link{shrthnd_tags}()},
+\code{\link{tag_match}()}
 }
 \concept{num}

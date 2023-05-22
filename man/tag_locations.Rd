@@ -5,7 +5,8 @@
 \alias{tag_in}
 \alias{where_tag}
 \alias{any_tag}
-\alias{no_tag}
+\alias{is_na_tag}
+\alias{is_na_both}
 \alias{locate_tag}
 \alias{locate_any_tag}
 \alias{locate_no_tag}
@@ -19,7 +20,9 @@ where_tag(x, tag)
 
 any_tag(x)
 
-no_tag(x)
+is_na_tag(x)
+
+is_na_both(x)
 
 locate_tag(x, tag)
 
@@ -35,7 +38,7 @@ locate_no_tag(x)
 \value{
 For \code{tag_match()}, \code{locate_tag()}, \code{locate_any_tag()} and
 \code{locate_no_tag()} an integer vector. For \code{tag_in()}, \code{where_tag()},
-\code{any_tag()} and \code{no_tag()} a logical vector.
+\code{any_tag()}, \code{is_na_tag()} and \code{is_na_both()} a logical vector.
 }
 \description{
 Base R's matching and location functions will work directly with the
@@ -51,11 +54,14 @@ will return \code{TRUE} or \code{FALSE} depending on whether the tag is in the
 vector's shorthand.
 
 \code{where_tag()} is equivalent to computing \code{tags == tag}, \code{any_tag()} is
-equivalent to \code{is.na(tags)}, while \code{no_tag()} is equivalent to \code{is.na(tags)}.
-They return a logical vector the same length as \code{x}.
+equivalent to \code{is.na(tags)}, while \code{is_na_tag()} is equivalent to
+\code{is.na(tags)}. Using \code{is.na()} on a \code{shrthnd_num()} will assess if the
+numeric component is missing, \code{is_na_both()} tests if both the numeric and
+tag components of a \code{shrthnd_num()} are missing. They return a logical
+vector the same length as \code{x}.
 
 \code{locate_tag()}, \code{locate_any_tag()}, \code{located_no_tag()} are equivalent to
-passing the return values of \code{where_tag()}, \code{any_tag()} and \code{no_tag()} to
+passing the return values of \code{where_tag()}, \code{any_tag()} and \code{is_na_tag()} to
 \code{which()}. They return an integer vector the same length as \code{x}.
 }
 \examples{
@@ -71,7 +77,7 @@ where_tag(sh_x, "[e]")
 
 any_tag(sh_x)
 
-no_tag(sh_x)
+is_na_tag(sh_x)
 
 locate_tag(sh_x, "[e]")
 
@@ -81,6 +87,12 @@ locate_no_tag(sh_x)
 }
 \seealso{
 
+\code{\link{as_shrthnd}()},
+\code{\link{is_shrthnd_num}()},
+\code{\link{make_shrthnd_num}()},
+\code{\link{shrthnd_coercion}},
+\code{\link{shrthnd_maths}},
+\code{\link{shrthnd_num}()},
 \code{\link{shrthnd_tags}()}
 }
-\concept{tag}
+\concept{num}

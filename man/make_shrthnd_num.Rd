@@ -27,7 +27,10 @@ make_shrthnd_num(c(1:3, NA, 4:5, NA), c("", "", "", "[c]", "", "[e]", NA))
 
 \code{\link{as_shrthnd}()},
 \code{\link{is_shrthnd_num}()},
+\code{\link{shrthnd_coercion}},
 \code{\link{shrthnd_maths}},
-\code{\link{shrthnd_num}()}
+\code{\link{shrthnd_num}()},
+\code{\link{shrthnd_tags}()},
+\code{\link{tag_match}()}
 }
 \concept{num}

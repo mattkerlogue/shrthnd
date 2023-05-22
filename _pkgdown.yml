@@ -22,6 +22,7 @@ reference:
       - as_shrthnd
       - is_shrthnd
       - shrthnd_list
+      - shrthnd_coercion
       - shrthnd_maths
       - where_shrthnd_cols
   - title: Work with the tags in a shrthnd vector

@@ -12,11 +12,14 @@
 #' vector's shorthand.
 #'
 #' `where_tag()` is equivalent to computing `tags == tag`, `any_tag()` is
-#' equivalent to `is.na(tags)`, while `no_tag()` is equivalent to `is.na(tags)`.
-#' They return a logical vector the same length as `x`.
+#' equivalent to `is.na(tags)`, while `is_na_tag()` is equivalent to
+#' `is.na(tags)`. Using `is.na()` on a `shrthnd_num()` will assess if the
+#' numeric component is missing, `is_na_both()` tests if both the numeric and
+#' tag components of a `shrthnd_num()` are missing. They return a logical
+#' vector the same length as `x`.
 #'
 #' `locate_tag()`, `locate_any_tag()`, `located_no_tag()` are equivalent to
-#' passing the return values of `where_tag()`, `any_tag()` and `no_tag()` to
+#' passing the return values of `where_tag()`, `any_tag()` and `is_na_tag()` to
 #' `which()`. They return an integer vector the same length as `x`.
 #'
 #' @param x A `shrthnd_num()` vector
@@ -24,9 +27,9 @@
 #'
 #' @return For `tag_match()`, `locate_tag()`, `locate_any_tag()` and
 #' `locate_no_tag()` an integer vector. For `tag_in()`, `where_tag()`,
-#' `any_tag()` and `no_tag()` a logical vector.
+#' `any_tag()`, `is_na_tag()` and `is_na_both()` a logical vector.
 #'
-#' @family tag
+#' @family num
 #'
 #' @rdname tag_locations
 #' @export
@@ -44,7 +47,7 @@
 #'
 #' any_tag(sh_x)
 #'
-#' no_tag(sh_x)
+#' is_na_tag(sh_x)
 #'
 #' locate_tag(sh_x, "[e]")
 #'
@@ -95,9 +98,20 @@ any_tag <- function(x) {
 
 #' @rdname tag_locations
 #' @export
-no_tag <- function(x) {
+is_na_tag <- function(x) {
 
   tag_locator(x, NULL, "no_tag")
+
+}
+
+#' @rdname tag_locations
+#' @export
+is_na_both <- function(x) {
+
+  y1 <- is.na(x)
+  y2 <- tag_locator(x, NULL, "no_tag")
+
+  y1 & y2
 
 }
 

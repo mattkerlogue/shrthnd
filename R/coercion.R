@@ -1,3 +1,24 @@
+#' Coercion of shrthnd_num vectors
+#'
+#' Through the `{vectrs}` package a `shrthnd_num()` is generally coerced to
+#' behave as if it was a regular a `numeric()` vector. Where `{vectrs}`
+#' doesn't automatically support coercion custom methods are provided to
+#' enable a `shrthnd_num()` to be considered as a numeric vector.
+#'
+#' Of particular note is that `is.na()` will return `TRUE` if the numeric
+#' component is missing, i.e. if there is no numeric element but a tag
+#' marker then `is.na()` will return `TRUE`. Use `is_na_tag()` to identify
+#' where there is no tag marker, or `is_na_both` to identify where both the
+#' numeric and tag components are missing.
+#'
+#' See [`shrthnd_maths`] for details on how `shrthnd_num()` works with
+#' arithmetic and mathematical operations.
+#'
+#' @family num
+#'
+#' @name shrthnd_coercion
+NULL
+
 digits_combine <- function(x, y) {
 
   x_digits <- attr(x, "digits")
@@ -133,4 +154,9 @@ vec_cast.character.shrthnd_num <- function(x, to, ...) {
 #' @export
 vec_cast.shrthnd_num.character <- function(x, to, ...) {
   shrthnd_num(x)
+}
+
+#' @export
+is.na.shrthnd_num <- function(x, ...) {
+  is.na(as.numeric(x))
 }

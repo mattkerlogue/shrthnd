@@ -9,8 +9,7 @@
 #'
 #' @return A character vector
 #'
-#' @seealso [shrthnd_num()]
-#' @family tag
+#' @family num
 #'
 #' @export
 #' @rdname shrthnd_tags

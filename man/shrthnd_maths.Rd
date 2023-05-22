@@ -53,6 +53,9 @@ mean(sh_x, na.rm = TRUE)
 \code{\link{as_shrthnd}()},
 \code{\link{is_shrthnd_num}()},
 \code{\link{make_shrthnd_num}()},
-\code{\link{shrthnd_num}()}
+\code{\link{shrthnd_coercion}},
+\code{\link{shrthnd_num}()},
+\code{\link{shrthnd_tags}()},
+\code{\link{tag_match}()}
 }
 \concept{num}
