@@ -88,7 +88,7 @@ note_to_source_note <- function(x, note, .overwrite = FALSE) {
   }
 
   sn <- notes[note]
-  sn <- gsub("^([Dd]ata[-\\s]?)?[Ss]ource(\\s*?[:-]\\s*)(.*)", "\\3", sn, perl = TRUE)
+  sn <- gsub("^([Dd]ata[-\\s]?)?[Ss]ource(\\s[Dd]ata[-\\s]?)?(\\s*?[:-]\\s*)(.*)", "\\4", sn, perl = TRUE)
 
   y <- set_tbl_attr(x, "source_note", value = sn, .overwrite)
   y <- set_tbl_attr(y, "notes", value = notes[-note], .overwrite = TRUE, .add = FALSE)
@@ -118,7 +118,7 @@ source_to_notes <- function(x, .add_before = Inf) {
 
   sn <- shrthnd_source_note(x)
 
-  if (!grepl("^([Dd]ata[-\\s]?)?[Ss]ource(\\s*?[:-]\\s*)", sn)) {
+  if (!grepl("^([Dd]ata[-\\s]?)?[Ss]ource(\\s[Dd]ata[-\\s]?)?(\\s*?[:-]\\s*)(.*)", sn)) {
     sn <- paste("Source:", sn)
   }
 
@@ -138,7 +138,7 @@ title_source_to_notes <- function(x, .add_before = 0) {
   tn <- shrthnd_title(x)
   sn <- shrthnd_source_note(x)
 
-  if (!grepl("^([Dd]ata[-\\s]?)?[Ss]ource(\\s*?[:-]\\s*)", sn)) {
+  if (!grepl("^([Dd]ata[-\\s]?)?[Ss]ource(\\s[Dd]ata[-\\s]?)?(\\s*?[:-]\\s*)(.*)", sn)) {
     sn <- paste("Source:", sn)
   }
 
