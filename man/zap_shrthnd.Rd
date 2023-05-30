@@ -6,7 +6,7 @@
 \alias{zap_source_note}
 \alias{zap_notes}
 \alias{zap_tbl}
-\title{Remove notes from tibbles}
+\title{Remove annotations from tibbles}
 \usage{
 zap_title(x)
 
@@ -30,16 +30,17 @@ which set of notes to remove}
 Returns \code{x} with relevant attributes removed
 }
 \description{
-The \verb{zap_*()} functions remove notes from a \code{shrthnd_tbl()} object.
+The \verb{zap_*()} functions remove annotations from a \code{shrthnd_tbl()} object.
 \code{zap_title()}, \code{zap_source_note()} and \code{zap_notes()} remove the title,
 source note and general notes respectively. \code{zap_tbl()} removes all three
-types of notes and also strips the \code{shrthnd_tbl} class from the object.
+types of annotations and also strips the \code{shrthnd_tbl} class from the object.
 \code{zap_shrthnd()} is a low-level helper function that power the attribute
 removal.
 }
 \details{
-To remove shrthnd from a vector use \code{as.numeric()}, \code{as.character()} or
-\code{as_shrthnd()} to coerce the vector to another type.
+To remove shrthnd from a \code{shrthnd_num()} vector use
+\code{as.numeric()}, \code{as.character()} or \code{as_shrthnd()} to coerce the vector to
+another type.
 }
 \examples{
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
@@ -65,8 +66,8 @@ zap_tbl(sh_tbl)
 }
 \seealso{
 
+\code{\link{annotations}()},
 \code{\link{note_to_title}()},
-\code{\link{shrthnd_tbl}()},
-\code{\link{tbl_notes}}
+\code{\link{shrthnd_tbl}()}
 }
 \concept{tbl}

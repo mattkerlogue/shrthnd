@@ -1,14 +1,15 @@
-#' Remove notes from tibbles
+#' Remove annotations from tibbles
 #'
-#' The `zap_*()` functions remove notes from a `shrthnd_tbl()` object.
+#' The `zap_*()` functions remove annotations from a `shrthnd_tbl()` object.
 #' `zap_title()`, `zap_source_note()` and `zap_notes()` remove the title,
 #' source note and general notes respectively. `zap_tbl()` removes all three
-#' types of notes and also strips the `shrthnd_tbl` class from the object.
+#' types of annotations and also strips the `shrthnd_tbl` class from the object.
 #' `zap_shrthnd()` is a low-level helper function that power the attribute
 #' removal.
 #'
-#' To remove shrthnd from a vector use `as.numeric()`, `as.character()` or
-#' `as_shrthnd()` to coerce the vector to another type.
+#' To remove shrthnd from a `shrthnd_num()` vector use
+#' `as.numeric()`, `as.character()` or `as_shrthnd()` to coerce the vector to
+#' another type.
 #'
 #' @param x A `shrthnd_tbl()`
 #' @param what One or more of `title`, `source_note` or `notes` indicating

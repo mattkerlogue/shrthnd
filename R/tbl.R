@@ -1,9 +1,15 @@
-#' Add notes to tibbles
+#' Add annotations to tibbles
+#'
+#' `shrthnd_tbl()` provides a way to attach annotations to a table.
+#' Specifically, it supports three types of annotation: a `title`, a
+#' `source note` and general `notes`. The `title` and `source_note` are each
+#' character vectors of length 1, while `notes` can be a character vector of
+#' any length.
 #'
 #' @param tbl A `tibble::tibble()` or object that can be coerced to a tibble.
-#' @param title A character vector representing the title of the tbl
-#' @param notes A character vector of notes relating to the title
-#' @param source_note A character vector for a source note
+#' @param title A character vector for the title of `tbl`
+#' @param source_note A character vector for a source note relating to `tbl`
+#' @param notes A character vector of general notes relating to `tbl`
 #'
 #' @return A tibble with shrthnd annotations
 #'
@@ -71,9 +77,10 @@ tbl_format_footer.shrthnd_tbl <- function(x, setup, ...) {
   if (!is.null(notes)) {
     shrthnd_notes <- paste(
       "#",
-      cli::symbol$star,
+      cli::symbol$menu,
       cli::pluralize(
-        "There {cli::qty(nnotes)}{?is/are} {nnotes} note{?s}, use `shrthnd_notes(x)` to view"
+        paste0("There {cli::qty(nnotes)}{?is/are} {nnotes} note{?s}, ",
+               "use `annotations(x)` to view")
       )
     )
   } else {
@@ -83,7 +90,7 @@ tbl_format_footer.shrthnd_tbl <- function(x, setup, ...) {
   if (!is.null(source_note)) {
     shrthnd_source <- paste(
       "#",
-      cli::symbol$star,
+      cli::symbol$menu,
       "Source:",
       source_note
     )

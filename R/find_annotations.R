@@ -1,9 +1,9 @@
-#' Find notes in a data frame
+#' Find annotations in a data frame
 #'
-#' `find_notes()` takes a data frame and identifies possible notes contained
-#' within it and returns them as a named list. `guess_notes()` is a low-level
-#' helper that extracts notes and returns them as a tibble of cell values,
-#' row and column positions.
+#' `find_annotations()` takes a data frame and identifies possible annotations
+#' contained within it and returns them as a named list. `guess_annotations()`
+#' is a low-level helper that extracts annotations and returns them as a tibble
+#' of cell values, row and column positions.
 #'
 #' Data frames have a declared `type`, which must be either `"sheet"` format
 #' (the default) or `"cells"` format. `"sheet"` format is a standard
@@ -13,11 +13,12 @@
 #' a variable for the cell's value, and separate variables providing the row
 #' and column variable.
 #'
-#' By default `find_notes()` will try to help parse the notes found by
-#' `guess_notes()`. With `title_first = TRUE`, the first note found in a data
-#' frame is assumed to provide a title or label for the table contained in
-#' the data frame. With `guess_source = TRUE`, the notes will be searched for
-#' one starting with either `"Source:"`, `"Data source:"` or `"Source data:"`.
+#' By default `find_annotations()` will try to help parse the annotations found
+#' by `guess_annotations()`. With `title_first = TRUE`, the first annotation
+#' found in a data frame is assumed to provide a title or label for the table
+#' contained in the data frame. With `guess_source = TRUE`, the annotations
+#' will be searched for one starting with either `"Source:"`, `"Data source:"`
+#' or `"Source data:"`.
 #'
 #' When using `type = "cells"` the variables identifying the row, column and
 #' cell values are specified by `.row_var`, `.col_var` and `.value_var`
@@ -26,9 +27,9 @@
 #'
 #' @param df A data frame object
 #' @param type Whether the data frame is in "sheet" format or "cells" format
-#' @param title_first Whether the first note should be treated as the table
-#'  title
-#' @param guess_source Whether to guess a source note
+#' @param title_first Whether the first annotation should be treated as the
+#'  table title
+#' @param guess_source Whether to guess a source note from the annoations
 #' @param .row_var When using `type = "cells"` the name of the variable with
 #'  row positions
 #' @param .col_var When using `type = "cells"` the name of the variable with
@@ -53,20 +54,20 @@
 #'
 #' example_df
 #'
-#' find_notes(example_df)
+#' find_annotations(example_df)
 #'
-#' guess_notes(example_df)
+#' guess_annotations(example_df)
 #'
-find_notes <- function(df, type = c("sheet", "cells"), title_first = TRUE,
-                       guess_source = TRUE, .row_var = row, .col_var = col,
-                       .value_var = value) {
+find_annotations <- function(df, type = c("sheet", "cells"), title_first = TRUE,
+                             guess_source = TRUE, .row_var = row,
+                             .col_var = col, .value_var = value) {
 
-  df_notes <- guess_notes(
+  df_notes <- guess_annotations(
     df, type = type, .row_var = {{ .row_var }}, .col_var = {{ .col_var }},
-    .value_var = {{ .value_var}}
+    .value_var = {{ .value_var }}
   )
 
-  out_notes <- df_notes$value
+  out_notes <- df_notes$annotation
 
   tn <- NULL
   if (title_first) {
@@ -89,7 +90,7 @@ find_notes <- function(df, type = c("sheet", "cells"), title_first = TRUE,
     cli::cli_warn(c("!" = "More than one source note found"))
   }
 
-  notes_list <- new_shrthnd_notes_list(
+  notes_list <- new_shrthnd_annotation(
     title = tn, source_note = sn, notes = out_notes,
     source_obj = rlang::as_string(rlang::call_args(rlang::current_call())[[1]]),
     .found = TRUE
@@ -99,10 +100,10 @@ find_notes <- function(df, type = c("sheet", "cells"), title_first = TRUE,
 
 }
 
-#' @rdname find_notes
+#' @rdname find_annotations
 #' @export
-guess_notes <- function(df, type = c("sheet", "cells"), .row_var = row,
-                        .col_var = col, .value_var = value) {
+guess_annotations <- function(df, type = c("sheet", "cells"), .row_var = row,
+                              .col_var = col, .value_var = value) {
 
   type <- rlang::arg_match(type)
 
@@ -125,32 +126,32 @@ guess_notes <- function(df, type = c("sheet", "cells"), .row_var = row,
     cell_df <- dplyr::mutate(cell_df, {{ .col_var }} := dplyr::row_number(),
                              .by = {{ .row_var }})
 
-    cell_df <- dplyr::select(cell_df, {{ .row_var }}, {{ .col_var }},
-                             {{ .value_var }})
+    cell_df <- dplyr::select(cell_df, row = {{ .row_var }}, col = {{ .col_var }},
+                             annotation = {{ .value_var }})
 
   } else if (type == "cells") {
     cell_df <- dplyr::transmute(
       df,
-      row = {{ .row_var }}, col = {{ .col_var }}, value = {{ .value_var }}
+      row = {{ .row_var }}, col = {{ .col_var }}, annotation = {{ .value_var }}
     )
   }
 
   content_df <- dplyr::mutate(
     cell_df,
-    has_content = !is.na(value)
+    has_content = !is.na(.data$annotation)
   )
 
   content_rows <- dplyr::summarise(
     content_df,
-    content_cells = sum(has_content),
+    content_cells = sum(.data$has_content),
     .by = row
   )
 
-  note_rows <- content_rows$row[content_rows$content_cells == 1]
+  antn_rows <- content_rows$row[content_rows$content_cells == 1]
 
-  note_guesses <- dplyr::filter(cell_df,
-                                row %in% note_rows & !is.na(value))
+  antn_guesses <- dplyr::filter(cell_df,
+                                row %in% antn_rows & !is.na(.data$annotation))
 
-  return(note_guesses)
+  return(antn_guesses)
 
 }

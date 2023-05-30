@@ -1,8 +1,8 @@
 #' Move notes to and from the title/source note of a tibble
 #'
-#' A `shrthnd_tbl()` has three sets of [notes][tbl_notes], the
+#' A `shrthnd_tbl()` has three sets of [annotations], the
 #' `note_to_*()` functions allow you to move a general note to either the
-#' title or source note of a tibble. the `*_to_notes()`functions do the
+#' title or source note of a tibble. The `*_to_notes()`functions do the
 #' opposite and (re)insert either the title and/or source note back into the
 #' general notes.
 #'
@@ -20,7 +20,7 @@
 #'
 #' @family tbl
 #'
-#' @rdname note_to
+#' @rdname annotation_to
 #' @export
 #'
 #' @examples
@@ -60,14 +60,14 @@ note_to_title <- function(x, note, .overwrite = FALSE) {
     cli::cli_abort("{.arg note} must be between 1 and {length(notes)}")
   }
 
-  y <- set_tbl_attr(x, "title", value = notes[note], .overwrite)
-  y <- set_tbl_attr(y, "notes", value = notes[-note], .overwrite = TRUE, .add = FALSE)
+  y <- set_tbl_antn(x, "title", value = notes[note], .overwrite)
+  y <- set_tbl_antn(y, "notes", value = notes[-note], .overwrite = TRUE, .add = FALSE)
 
   return(y)
 
 }
 
-#' @rdname note_to
+#' @rdname annotation_to
 #' @export
 note_to_source_note <- function(x, note, .overwrite = FALSE) {
 
@@ -90,20 +90,20 @@ note_to_source_note <- function(x, note, .overwrite = FALSE) {
   sn <- notes[note]
   sn <- gsub("^([Dd]ata[-\\s]?)?[Ss]ource(\\s[Dd]ata[-\\s]?)?(\\s*?[:-]\\s*)(.*)", "\\4", sn, perl = TRUE)
 
-  y <- set_tbl_attr(x, "source_note", value = sn, .overwrite)
-  y <- set_tbl_attr(y, "notes", value = notes[-note], .overwrite = TRUE, .add = FALSE)
+  y <- set_tbl_antn(x, "source_note", value = sn, .overwrite)
+  y <- set_tbl_antn(y, "notes", value = notes[-note], .overwrite = TRUE, .add = FALSE)
 
   return(y)
 
 }
 
-#' @rdname note_to
+#' @rdname annotation_to
 #' @export
 title_to_notes <- function(x, .add_before = 0) {
 
   tn <- shrthnd_title(x)
 
-  y <- set_tbl_attr(x, "notes", tn, .overwrite = TRUE, .add = TRUE,
+  y <- set_tbl_antn(x, "notes", tn, .overwrite = TRUE, .add = TRUE,
                     .add_before = .add_before)
 
   y <- zap_title(y)
@@ -112,7 +112,7 @@ title_to_notes <- function(x, .add_before = 0) {
 
 }
 
-#' @rdname note_to
+#' @rdname annotation_to
 #' @export
 source_to_notes <- function(x, .add_before = Inf) {
 
@@ -122,7 +122,7 @@ source_to_notes <- function(x, .add_before = Inf) {
     sn <- paste("Source:", sn)
   }
 
-  y <- set_tbl_attr(x, "notes", sn, .overwrite = TRUE, .add = TRUE,
+  y <- set_tbl_antn(x, "notes", sn, .overwrite = TRUE, .add = TRUE,
                     .add_before = .add_before)
 
   y <- zap_source_note(y)
@@ -131,7 +131,7 @@ source_to_notes <- function(x, .add_before = Inf) {
 
 }
 
-#' @rdname note_to
+#' @rdname annotation_to
 #' @export
 title_source_to_notes <- function(x, .add_before = 0) {
 
@@ -142,7 +142,7 @@ title_source_to_notes <- function(x, .add_before = 0) {
     sn <- paste("Source:", sn)
   }
 
-  y <- set_tbl_attr(x, "notes", c(tn, sn), .overwrite = TRUE, .add = TRUE,
+  y <- set_tbl_antn(x, "notes", c(tn, sn), .overwrite = TRUE, .add = TRUE,
                     .add_before = .add_before)
 
   y <- zap_title(y)

@@ -29,12 +29,12 @@ reference:
     contents:
       - shrthnd_tags
       - tag_match
-  - title: Add notes to tibbles
+  - title: Work with table annotations
     contents:
       - shrthnd_tbl
-      - notes
+      - annotations
       - note_to_title
-      - find_notes
+      - find_annotations
       - zap_shrthnd
 
 

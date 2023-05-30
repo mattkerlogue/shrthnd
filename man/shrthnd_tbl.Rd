@@ -2,24 +2,28 @@
 % Please edit documentation in R/tbl.R
 \name{shrthnd_tbl}
 \alias{shrthnd_tbl}
-\title{Add notes to tibbles}
+\title{Add annotations to tibbles}
 \usage{
 shrthnd_tbl(tbl, title = NULL, notes = NULL, source_note = NULL)
 }
 \arguments{
 \item{tbl}{A \code{tibble::tibble()} or object that can be coerced to a tibble.}
 
-\item{title}{A character vector representing the title of the tbl}
+\item{title}{A character vector for the title of \code{tbl}}
 
-\item{notes}{A character vector of notes relating to the title}
+\item{notes}{A character vector of general notes relating to \code{tbl}}
 
-\item{source_note}{A character vector for a source note}
+\item{source_note}{A character vector for a source note relating to \code{tbl}}
 }
 \value{
 A tibble with shrthnd annotations
 }
 \description{
-Add notes to tibbles
+\code{shrthnd_tbl()} provides a way to attach annotations to a table.
+Specifically, it supports three types of annotation: a \code{title}, a
+\verb{source note} and general \code{notes}. The \code{title} and \code{source_note} are each
+character vectors of length 1, while \code{notes} can be a character vector of
+any length.
 }
 \examples{
 x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
@@ -36,8 +40,8 @@ shrthnd_tbl(
 \code{\link[=is_shrthnd_tbl]{is_shrthnd_tbl()}}
 
 
+\code{\link{annotations}()},
 \code{\link{note_to_title}()},
-\code{\link{tbl_notes}},
 \code{\link{zap_shrthnd}()}
 }
 \concept{tbl}
