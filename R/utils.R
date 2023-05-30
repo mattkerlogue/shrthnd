@@ -131,3 +131,38 @@ check_dec_bigmark <- function(dec, bigmark) {
   }
 
 }
+
+
+chk_arg <- function(x, type = c("character", "integer", "double"),
+                    scalar = FALSE, bare = TRUE, allow_null = FALSE) {
+
+  if (allow_null) {
+    if (is.null(x)) {
+      return(TRUE)
+    }
+  } else if (is.null(x)) {
+    return(FALSE)
+  }
+
+  type <- rlang::arg_match(type)
+
+  if (scalar) {
+    type <- paste0("scalar_", type)
+  } else if (bare) {
+    type <- paste0("bare_", type)
+  }
+
+  switch(
+    type,
+    scalar_character = rlang::is_scalar_character(x),
+    scalar_integer = rlang::is_scalar_integerish(x),
+    scalar_double = rlang::is_scalar_double(x),
+    bare_character = rlang::is_bare_character(x),
+    bare_integer = rlang::is_bare_integer(x),
+    bare_double = rlang::is_bare_double(x),
+    character = rlang::is_character(x),
+    integer = rlang::is_integer(x),
+    double = rlang::is_double(x)
+  )
+
+}
