@@ -32,7 +32,7 @@ reference:
   - title: Add notes to tibbles
     contents:
       - shrthnd_tbl
-      - set_tbl_attr
+      - notes
       - note_to_title
       - zap_shrthnd
 

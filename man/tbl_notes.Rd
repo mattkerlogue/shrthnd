@@ -2,6 +2,7 @@
 % Please edit documentation in R/notes.R
 \name{tbl_notes}
 \alias{tbl_notes}
+\alias{notes}
 \alias{shrthnd_title}
 \alias{shrthnd_title<-}
 \alias{set_title}
@@ -16,6 +17,8 @@
 \alias{set_tbl_attr}
 \title{Get and set notes for a tibble}
 \usage{
+notes(x)
+
 shrthnd_title(x)
 
 shrthnd_title(x) <- value
@@ -70,9 +73,12 @@ invisibly either \code{x} if the attribute was set or \code{NULL} if not.
 \description{
 A \code{shrthnd_tbl()} has three sets of notes that can be defined: a \code{title},
 a \code{source_note} and a set of general \code{notes}. This family of functions
-allows you to set and modify these notes.
+allows you to view and modify these notes.
 }
 \details{
+Use \code{notes()} to see the all the notes associated with a \code{shrthnd_tbl()}
+object.
+
 \code{shrthnd_title()}, \code{shrthnd_source_note()} and \code{shrthnd_notes()} get the
 relevant note(s) of a \code{shrthnd_tbl()} object. Passing a value to these
 functions (\code{shrthnd_title(x) <- "My title"}) will set the value of these
@@ -95,10 +101,12 @@ tbl <- tibble::tibble(x = x, sh_x = sh_x)
 
 sh_tbl <- shrthnd_tbl(tbl) |>
   set_title("My Example Table") |>
-  set_source_note("Shrthnd Documentation, 2023") |>
+  set_source_note("Shrthnd documentation (2023)") |>
   set_notes(c("Note 1", "Note 2"))
 
 sh_tbl
+
+notes(sh_tbl)
 
 shrthnd_title(sh_tbl)
 shrthnd_source_note(sh_tbl)

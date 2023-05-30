@@ -2,7 +2,10 @@
 #'
 #' A `shrthnd_tbl()` has three sets of notes that can be defined: a `title`,
 #' a `source_note` and a set of general `notes`. This family of functions
-#' allows you to set and modify these notes.
+#' allows you to view and modify these notes.
+#'
+#' Use `notes()` to see the all the notes associated with a `shrthnd_tbl()`
+#' object.
 #'
 #' `shrthnd_title()`, `shrthnd_source_note()` and `shrthnd_notes()` get the
 #' relevant note(s) of a `shrthnd_tbl()` object. Passing a value to these
@@ -41,10 +44,12 @@
 #'
 #' sh_tbl <- shrthnd_tbl(tbl) |>
 #'   set_title("My Example Table") |>
-#'   set_source_note("Shrthnd Documentation, 2023") |>
+#'   set_source_note("Shrthnd documentation (2023)") |>
 #'   set_notes(c("Note 1", "Note 2"))
 #'
 #' sh_tbl
+#'
+#' notes(sh_tbl)
 #'
 #' shrthnd_title(sh_tbl)
 #' shrthnd_source_note(sh_tbl)
@@ -55,6 +60,26 @@
 #'
 #' @name tbl_notes
 NULL
+
+#' @rdname tbl_notes
+#' @export
+notes <- function(x) {
+  UseMethod("notes")
+}
+
+#' @export
+notes.shrthnd_tbl <- function(x) {
+  chk_shrthnd_tbl(x)
+
+  tn <- attr(x, "shrthnd_title")
+  sn <- attr(x, "shrthnd_source_note")
+  out_notes <- attr(x, "shrthnd_notes")
+
+  new_shrthnd_notes_list(
+    title = tn, source_note = sn, notes = out_notes,
+    source_obj = rlang::as_string(rlang::call_args(rlang::current_call())[[1]])
+  )
+}
 
 #' @rdname tbl_notes
 #' @export
@@ -214,6 +239,76 @@ set_tbl_attr <- function(x, what = c("title", "source_note", "notes"),
 
     return(invisible(NULL))
 
+  }
+
+}
+
+new_shrthnd_notes_list <- function(title, source_note, notes,
+                                   source_obj = NULL, .found = FALSE) {
+
+  if (!chk_arg(title, type = "character", scalar = TRUE, allow_null = TRUE)) {
+    cli::cli_abort("{.arg title} must be a character vector of length 1")
+  }
+
+  if (!chk_arg(source_note, type = "character", scalar = TRUE, allow_null = TRUE)) {
+    cli::cli_abort("{.arg source} must be a character vector of length 1")
+  }
+
+  if (!chk_arg(title, type = "character", scalar = FALSE, allow_null = TRUE)) {
+    cli::cli_abort("{.arg notes} must be a character vector")
+  }
+
+  if (is.null(title) & is.null(source_note) & is.null(notes)) {
+    cli::cli_abort("{.arg {c('title', 'source_notes', 'notes')}} are all null")
+  }
+
+  nl <- vctrs::list_of(title = title, source_note = source_note, notes = notes,
+                       .ptype = character())
+
+  vctrs::new_vctr(nl, source_obj = source_obj, found = .found,
+                  class = "shrthnd_notes")
+
+}
+
+is_shrthnd_notes <- function(x) {
+  inherits(x, "shrthnd_notes")
+}
+
+#' @export
+vec_ptype_abbr.shrthnd_notes <- function (x, ...) {
+  "sh_notes"
+}
+
+#' @export
+print.shrthnd_notes <- function (x, ...) {
+
+  title <- x$title
+  source_note <- x$source_note
+  notes <- x$notes
+  source_obj <- attr(x, "source_obj")
+  found <- attr(x, "found")
+
+  conjunct <- "for"
+  if (found) {
+    conjunct <- "found in"
+  }
+
+  cli::cat_rule(
+    left = cli::format_inline("Notes ", conjunct, " {.var ", source_obj, "}"),
+    col = pillar::style_subtle
+  )
+
+  if (!is.null(title)) {
+    cli::cat_line(pillar::style_subtle("Title: "), title)
+  }
+
+  if (!is.null(title)) {
+    cli::cat_line(pillar::style_subtle("Source: "), source_note)
+  }
+
+  if (!is.null(notes)) {
+    cli::cat_line(pillar::style_subtle("Notes:"))
+    cli::cli_ul(notes)
   }
 
 }
