@@ -112,10 +112,12 @@ vec_ptype_abbr.shrthnd_list <- function (x, ...) {
 
 #' @export
 print.shrthnd_list <- function (x, ...) {
+
   sl_s <- names(x)
   sl_c <- unname(lengths(x))
 
-  cat(paste0("<shrthnd_list[", length(x), "]>" ), "\n")
+  vctrs::obj_print_header(x)
+
   for (i in seq_along(x)) {
     sl_w <- x[[i]]
     loc <- ifelse(length(sl_w) > 1, " locations)", " location)")
