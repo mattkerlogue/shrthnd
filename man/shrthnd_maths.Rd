@@ -24,7 +24,7 @@ are supported:
 \code{exp()}, \code{expm1()}, \code{cos()}, \code{cosh()}, \code{cospi()}, \code{sin()}, \code{sinh()},
 \code{sinpi()}, \code{tan()}, \code{tanh()}, \code{tanpi()}, \code{gamma()}, \code{lgamma()},
 \code{digamma()}, \code{trigamma()}.
-\item \code{vectrs::vec_math()} also enables support for \code{mean()}, \code{is.nan()},
+\item \code{vctrs::vec_math()} also enables support for \code{mean()}, \code{is.nan()},
 \code{is.finite()} and \code{is.infinite()}.
 \item In addition to these, the \code{{shrthnd}} package also provides methods for
 \code{median()} and \code{quantile()}, and will work with \code{sd()} due to the ability

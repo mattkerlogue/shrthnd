@@ -1,18 +1,31 @@
 #' Coercion of shrthnd_num vectors
 #'
-#' Through the `{vectrs}` package a `shrthnd_num()` is generally coerced to
-#' behave as if it was a regular a `numeric()` vector. Where `{vectrs}`
-#' doesn't automatically support coercion custom methods are provided to
-#' enable a `shrthnd_num()` to be considered as a numeric vector.
+#' As an extension of the `{vectrs}` package, a `shrthnd_num()` is generally
+#' coerced to behave as if it was a regular a `numeric()` vector. Where
+#' `{vectrs}` doesn't automatically support coercion custom methods are
+#' provided to enable a `shrthnd_num()` to be considered as a numeric vector.
 #'
-#' Of particular note is that `is.na()` will return `TRUE` if the numeric
-#' component is missing, i.e. if there is no numeric element but a tag
-#' marker then `is.na()` will return `TRUE`. Use `is_na_tag()` to identify
-#' where there is no tag marker, or `is_na_both` to identify where both the
-#' numeric and tag components are missing.
+#' @details # General principles
+#' The principles underpinning the coercion of a `shrthnd_num()` vector are
+#' that to maximise compatability with base R and other packages, the vector
+#' should generally behave as a numeric vector. This means that
+#' `as.numeric()` will produce a bare numeric vector containing just the
+#' numeric component of a `shrthnd_num()`. Similarly `as.character()` will
+#' produce a character vector of the numeric component of a `shrthnd_num()`.
+#' To work with tags use `shrthnd_tags()` and the related
+#' [tag location][tag_match()] functions. To produce a traditional
+#' character vector combining the numeric component and tag component use
+#' `as_shrthnd()` on a `shrthnd_num()` vector.
 #'
 #' See [`shrthnd_maths`] for details on how `shrthnd_num()` works with
-#' arithmetic and mathematical operations.
+#' arithmetic, mathematical and (some) statistical operations.
+#'
+#' @details # Missing values
+#' Of particular note is that using `is.na()` on a `shrthnd_num()` vector is
+#' designed to work on the numeric component, i.e. if numeric component is
+#' missing but a tag marker is present then `is.na()` will return `TRUE`. Use
+#' `is_na_tag()` to identify where there is no tag marker, or `is_na_both()` to
+#' identify where both the numeric and tag components are missing.
 #'
 #' @family num
 #'

@@ -21,7 +21,7 @@
 #'   `sinpi()`, `tan()`, `tanh()`, `tanpi()`, `gamma()`, `lgamma()`,
 #'   `digamma()`, `trigamma()`.
 #'
-#' - `vectrs::vec_math()` also enables support for `mean()`, `is.nan()`,
+#' - `vctrs::vec_math()` also enables support for `mean()`, `is.nan()`,
 #'   `is.finite()` and `is.infinite()`.
 #'
 #' - In addition to these, the `{shrthnd}` package also provides methods for

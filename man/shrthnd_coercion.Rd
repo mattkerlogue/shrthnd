@@ -4,21 +4,35 @@
 \alias{shrthnd_coercion}
 \title{Coercion of shrthnd_num vectors}
 \description{
-Through the \code{{vectrs}} package a \code{shrthnd_num()} is generally coerced to
-behave as if it was a regular a \code{numeric()} vector. Where \code{{vectrs}}
-doesn't automatically support coercion custom methods are provided to
-enable a \code{shrthnd_num()} to be considered as a numeric vector.
+As an extension of the \code{{vectrs}} package, a \code{shrthnd_num()} is generally
+coerced to behave as if it was a regular a \code{numeric()} vector. Where
+\code{{vectrs}} doesn't automatically support coercion custom methods are
+provided to enable a \code{shrthnd_num()} to be considered as a numeric vector.
 }
-\details{
-Of particular note is that \code{is.na()} will return \code{TRUE} if the numeric
-component is missing, i.e. if there is no numeric element but a tag
-marker then \code{is.na()} will return \code{TRUE}. Use \code{is_na_tag()} to identify
-where there is no tag marker, or \code{is_na_both} to identify where both the
-numeric and tag components are missing.
+\section{General principles}{
+The principles underpinning the coercion of a \code{shrthnd_num()} vector are
+that to maximise compatability with base R and other packages, the vector
+should generally behave as a numeric vector. This means that
+\code{as.numeric()} will produce a bare numeric vector containing just the
+numeric component of a \code{shrthnd_num()}. Similarly \code{as.character()} will
+produce a character vector of the numeric component of a \code{shrthnd_num()}.
+To work with tags use \code{shrthnd_tags()} and the related
+\link[=tag_match]{tag location} functions. To produce a traditional
+character vector combining the numeric component and tag component use
+\code{as_shrthnd()} on a \code{shrthnd_num()} vector.
 
 See \code{\link{shrthnd_maths}} for details on how \code{shrthnd_num()} works with
-arithmetic and mathematical operations.
+arithmetic, mathematical and (some) statistical operations.
 }
+
+\section{Missing values}{
+Of particular note is that using \code{is.na()} on a \code{shrthnd_num()} vector is
+designed to work on the numeric component, i.e. if numeric component is
+missing but a tag marker is present then \code{is.na()} will return \code{TRUE}. Use
+\code{is_na_tag()} to identify where there is no tag marker, or \code{is_na_both()} to
+identify where both the numeric and tag components are missing.
+}
+
 \seealso{
 
 \code{\link{as_shrthnd}()},
