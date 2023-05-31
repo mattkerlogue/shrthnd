@@ -21,6 +21,11 @@ To work with tags use \code{shrthnd_tags()} and the related
 character vector combining the numeric component and tag component use
 \code{as_shrthnd()} on a \code{shrthnd_num()} vector.
 
+In keeping with base R practice around complex numeric objects such as
+\code{Date()}, \code{difftime()} and \code{POSIXct()}, using \code{is.numeric()} on a
+\code{shrthnd_num()} vector will return \code{FALSE}. Use \code{is_shrthnd_num()} to test
+if a vector is a \code{shrthnd_num()} vector.
+
 See \code{\link{shrthnd_maths}} for details on how \code{shrthnd_num()} works with
 arithmetic, mathematical and (some) statistical operations.
 }
@@ -33,6 +38,18 @@ missing but a tag marker is present then \code{is.na()} will return \code{TRUE}.
 identify where both the numeric and tag components are missing.
 }
 
+\examples{
+x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+sh_x <- shrthnd_num(x, c("[c]", "[e]"))
+
+as.numeric(sh_x)
+
+as.character(sh_x)
+
+is.na(sh_x)
+
+
+}
 \seealso{
 
 \code{\link{as_shrthnd}()},

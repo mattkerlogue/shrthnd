@@ -25,8 +25,9 @@
 #'   `is.finite()` and `is.infinite()`.
 #'
 #' - In addition to these, the `{shrthnd}` package also provides methods for
-#'   `median()` and `quantile()`, and will work with `sd()` due to the ability
-#'   of a `shrthnd_num()` to be easily coerced to a numeric vector.
+#'   `range()`, `min()`, `max()`, `median()` and `quantile()`. A
+#'   `shrthnd_num()` will work with `sd()` due to the ability of a
+#'   `shrthnd_num()` to be easily coerced to a numeric vector.
 #'
 #' For other operations you will need to wrap the `shrthnd_num` vector in
 #' `as.numeric()`.
@@ -86,6 +87,7 @@ vec_arith.shrthnd_num.shrthnd_num <- function(op, x, y, ...) {
 
 #' @export
 vec_math.shrthnd_num <- function(.fn, .x, ...) {
+  .x <- vctrs::vec_cast(.x, double())
   shrthnd_math(.fn, .x, ...)
 }
 
@@ -101,4 +103,22 @@ median.shrthnd_num <- function(x, ...) {
 quantile.shrthnd_num <- function(x, ...) {
   x <- vctrs::vec_cast(x, double())
   quantile(x, ...)
+}
+
+#' @export
+min.shrthnd_num <- function(x, ...) {
+  x <- vctrs::vec_cast(x, double())
+  min(x, ...)
+}
+
+#' @export
+max.shrthnd_num <- function(x, ...) {
+  x <- vctrs::vec_cast(x, double())
+  max(x, ...)
+}
+
+#' @export
+range.shrthnd_num <- function(x, ...) {
+  x <- vctrs::vec_cast(x, double())
+  range(x, ...)
 }

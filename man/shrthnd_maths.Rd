@@ -27,8 +27,9 @@ are supported:
 \item \code{vctrs::vec_math()} also enables support for \code{mean()}, \code{is.nan()},
 \code{is.finite()} and \code{is.infinite()}.
 \item In addition to these, the \code{{shrthnd}} package also provides methods for
-\code{median()} and \code{quantile()}, and will work with \code{sd()} due to the ability
-of a \code{shrthnd_num()} to be easily coerced to a numeric vector.
+\code{range()}, \code{min()}, \code{max()}, \code{median()} and \code{quantile()}. A
+\code{shrthnd_num()} will work with \code{sd()} due to the ability of a
+\code{shrthnd_num()} to be easily coerced to a numeric vector.
 }
 
 For other operations you will need to wrap the \code{shrthnd_num} vector in

@@ -17,6 +17,11 @@
 #' character vector combining the numeric component and tag component use
 #' `as_shrthnd()` on a `shrthnd_num()` vector.
 #'
+#' In keeping with base R practice around complex numeric objects such as
+#' `Date()`, `difftime()` and `POSIXct()`, using `is.numeric()` on a
+#' `shrthnd_num()` vector will return `FALSE`. Use `is_shrthnd_num()` to test
+#' if a vector is a `shrthnd_num()` vector.
+#'
 #' See [`shrthnd_maths`] for details on how `shrthnd_num()` works with
 #' arithmetic, mathematical and (some) statistical operations.
 #'
@@ -28,6 +33,17 @@
 #' identify where both the numeric and tag components are missing.
 #'
 #' @family num
+#'
+#' @examples
+#' x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+#' sh_x <- shrthnd_num(x, c("[c]", "[e]"))
+#'
+#' as.numeric(sh_x)
+#'
+#' as.character(sh_x)
+#'
+#' is.na(sh_x)
+#'
 #'
 #' @name shrthnd_coercion
 NULL
