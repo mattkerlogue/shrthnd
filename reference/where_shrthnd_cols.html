@@ -29,6 +29,12 @@ that are shrthnd_num() vectors."><meta property="og:image" content="https://matt
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/shrthnd-num.html">Numeric vectors with tags</a>
+  </div>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
@@ -65,7 +71,7 @@ that are <code><a href="shrthnd_num.html">shrthnd_num()</a></code> vectors.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">where_shrthnd_cols</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">which_shrthnd_cols</span><span class="op">(</span><span class="va">x</span>, .names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">which_shrthnd_cols</span><span class="op">(</span><span class="va">x</span>, .names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">any_shrthnd_cols</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -78,7 +84,7 @@ that are <code><a href="shrthnd_num.html">shrthnd_num()</a></code> vectors.</p>
 
 <dt>.names</dt>
 <dd><p>A logical vector indicating whether to return column names
-(the default) or an integer vector of column positions</p></dd>
+or an integer vector of column positions (the default)</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -87,8 +93,7 @@ that are <code><a href="shrthnd_num.html">shrthnd_num()</a></code> vectors.</p>
 
 <p>For <code>where_shrthnd_cols()</code> a logical vector of the same length as
 the number columns in <code>x</code>. For <code>which_shrthnd_cols()</code> a character vector
-of names (the default) or an integer vector of index positions for the
-columns (or elements) that are shrthnd_num vectors. For
+of names or an integer vector of index positions (the default). For
 <code>any_shrthnd_cols()</code> either <code>TRUE</code> if there are any <code><a href="shrthnd_num.html">shrthnd_num()</a></code></p>
 
 
@@ -109,10 +114,10 @@ columns (or elements) that are shrthnd_num vectors. For
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">which_shrthnd_cols</span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sh_x"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">which_shrthnd_cols</span><span class="op">(</span><span class="va">tbl</span>, .names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">which_shrthnd_cols</span><span class="op">(</span><span class="va">tbl</span>, .names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sh_x"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">any_shrthnd_cols</span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>

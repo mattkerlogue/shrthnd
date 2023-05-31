@@ -25,6 +25,12 @@ the same functionality but applied to the tag component."><meta property="og:ima
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/shrthnd-num.html">Numeric vectors with tags</a>
+  </div>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
@@ -103,10 +109,10 @@ integer vector showing the first location of the tag provided, <code>tag_in()</c
 will return <code>TRUE</code> or <code>FALSE</code> depending on whether the tag is in the
 vector's shorthand.</p>
 <p><code>where_tag()</code> is equivalent to computing <code>tags == tag</code>, <code>any_tag()</code> is
-equivalent to <code>is.na(tags)</code>, while <code>is_na_tag()</code> is equivalent to
-<code>is.na(tags)</code>. Using <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> on a <code><a href="shrthnd_num.html">shrthnd_num()</a></code> will assess if the
-numeric component is missing, <code>is_na_both()</code> tests if both the numeric and
-tag components of a <code><a href="shrthnd_num.html">shrthnd_num()</a></code> are missing. They return a logical
+equivalent to <code>!is.na(tags)</code>. Using <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> on a <code><a href="shrthnd_num.html">shrthnd_num()</a></code> will
+assess if the numeric component is missing, <code>is_na_tag()</code> is equivalent to
+<code>is.na(tags)</code>, <code>is_na_both()</code> tests if both the numeric and tag components
+of a <code><a href="shrthnd_num.html">shrthnd_num()</a></code> are missing. They return a logical
 vector the same length as <code>x</code>.</p>
 <p><code>locate_tag()</code>, <code>locate_any_tag()</code>, <code>located_no_tag()</code> are equivalent to
 passing the return values of <code>where_tag()</code>, <code>any_tag()</code> and <code>is_na_tag()</code> to
@@ -146,6 +152,9 @@ passing the return values of <code>where_tag()</code>, <code>any_tag()</code> an
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">is_na_tag</span><span class="op">(</span><span class="va">sh_x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">is_na_both</span><span class="op">(</span><span class="va">sh_x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">locate_tag</span><span class="op">(</span><span class="va">sh_x</span>, <span class="st">"[e]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5 7</span>

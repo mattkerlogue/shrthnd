@@ -10,6 +10,12 @@
     <loc>https://mattkerlogue.github.io/shrthnd/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://mattkerlogue.github.io/shrthnd/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://mattkerlogue.github.io/shrthnd/articles/shrthnd-num.html</loc>
+  </url>
+  <url>
     <loc>https://mattkerlogue.github.io/shrthnd/authors.html</loc>
   </url>
   <url>
@@ -19,7 +25,16 @@
     <loc>https://mattkerlogue.github.io/shrthnd/news/index.html</loc>
   </url>
   <url>
+    <loc>https://mattkerlogue.github.io/shrthnd/reference/annotation_to.html</loc>
+  </url>
+  <url>
+    <loc>https://mattkerlogue.github.io/shrthnd/reference/annotations.html</loc>
+  </url>
+  <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/as_shrthnd.html</loc>
+  </url>
+  <url>
+    <loc>https://mattkerlogue.github.io/shrthnd/reference/find_annotations.html</loc>
   </url>
   <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/index.html</loc>
@@ -29,9 +44,6 @@
   </url>
   <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/make_shrthnd_num.html</loc>
-  </url>
-  <url>
-    <loc>https://mattkerlogue.github.io/shrthnd/reference/note_to.html</loc>
   </url>
   <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/shrthnd_coercion.html</loc>
@@ -53,9 +65,6 @@
   </url>
   <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/tag_locations.html</loc>
-  </url>
-  <url>
-    <loc>https://mattkerlogue.github.io/shrthnd/reference/tbl_notes.html</loc>
   </url>
   <url>
     <loc>https://mattkerlogue.github.io/shrthnd/reference/where_shrthnd_cols.html</loc>

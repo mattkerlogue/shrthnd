@@ -25,6 +25,12 @@ having to wrap the vector in as.numeric()."><meta property="og:image" content="h
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/shrthnd-num.html">Numeric vectors with tags</a>
+  </div>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
@@ -70,11 +76,12 @@ are supported:</p><ul><li><p>from the <a href="https://rdrr.io/r/base/groupGener
 <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">expm1()</a></code>, <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos()</a></code>, <code><a href="https://rdrr.io/r/base/Hyperbolic.html" class="external-link">cosh()</a></code>, <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cospi()</a></code>, <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin()</a></code>, <code><a href="https://rdrr.io/r/base/Hyperbolic.html" class="external-link">sinh()</a></code>,
 <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sinpi()</a></code>, <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">tan()</a></code>, <code><a href="https://rdrr.io/r/base/Hyperbolic.html" class="external-link">tanh()</a></code>, <code><a href="https://rdrr.io/r/base/Trig.html" class="external-link">tanpi()</a></code>, <code><a href="https://rdrr.io/r/base/Special.html" class="external-link">gamma()</a></code>, <code><a href="https://rdrr.io/r/base/Special.html" class="external-link">lgamma()</a></code>,
 <code><a href="https://rdrr.io/r/base/Special.html" class="external-link">digamma()</a></code>, <code><a href="https://rdrr.io/r/base/Special.html" class="external-link">trigamma()</a></code>.</p></li>
-<li><p><code>vectrs::vec_math()</code> also enables support for <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code>, <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.nan()</a></code>,
+<li><p><code><a href="https://vctrs.r-lib.org/reference/vec_math.html" class="external-link">vctrs::vec_math()</a></code> also enables support for <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code>, <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.nan()</a></code>,
 <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.finite()</a></code> and <code><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.infinite()</a></code>.</p></li>
 <li><p>In addition to these, the <code>{shrthnd}</code> package also provides methods for
-<code><a href="https://rdrr.io/r/stats/median.html" class="external-link">median()</a></code> and <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile()</a></code>, and will work with <code><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd()</a></code> due to the ability
-of a <code><a href="shrthnd_num.html">shrthnd_num()</a></code> to be easily coerced to a numeric vector.</p></li>
+<code><a href="https://rdrr.io/r/base/range.html" class="external-link">range()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max()</a></code>, <code><a href="https://rdrr.io/r/stats/median.html" class="external-link">median()</a></code> and <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile()</a></code>. A
+<code><a href="shrthnd_num.html">shrthnd_num()</a></code> will work with <code><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd()</a></code> due to the ability of a
+<code><a href="shrthnd_num.html">shrthnd_num()</a></code> to be easily coerced to a numeric vector.</p></li>
 </ul><p>For other operations you will need to wrap the <code>shrthnd_num</code> vector in
 <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric()</a></code>.</p>
 <p>For all operations remember that you will likely need to set <code>na.rm = TRUE</code>
