@@ -54,10 +54,10 @@ will return \code{TRUE} or \code{FALSE} depending on whether the tag is in the
 vector's shorthand.
 
 \code{where_tag()} is equivalent to computing \code{tags == tag}, \code{any_tag()} is
-equivalent to \code{is.na(tags)}, while \code{is_na_tag()} is equivalent to
-\code{is.na(tags)}. Using \code{is.na()} on a \code{shrthnd_num()} will assess if the
-numeric component is missing, \code{is_na_both()} tests if both the numeric and
-tag components of a \code{shrthnd_num()} are missing. They return a logical
+equivalent to \code{!is.na(tags)}. Using \code{is.na()} on a \code{shrthnd_num()} will
+assess if the numeric component is missing, \code{is_na_tag()} is equivalent to
+\code{is.na(tags)}, \code{is_na_both()} tests if both the numeric and tag components
+of a \code{shrthnd_num()} are missing. They return a logical
 vector the same length as \code{x}.
 
 \code{locate_tag()}, \code{locate_any_tag()}, \code{located_no_tag()} are equivalent to
@@ -78,6 +78,8 @@ where_tag(sh_x, "[e]")
 any_tag(sh_x)
 
 is_na_tag(sh_x)
+
+is_na_both(sh_x)
 
 locate_tag(sh_x, "[e]")
 

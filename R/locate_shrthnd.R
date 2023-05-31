@@ -8,12 +8,11 @@
 #'
 #' @param x A data.frame (or list)
 #' @param .names A logical vector indicating whether to return column names
-#'   (the default) or an integer vector of column positions
+#'  or an integer vector of column positions (the default)
 #'
 #' @return For `where_shrthnd_cols()` a logical vector of the same length as
 #'   the number columns in `x`. For `which_shrthnd_cols()` a character vector
-#'   of names (the default) or an integer vector of index positions for the
-#'   columns (or elements) that are shrthnd_num vectors. For
+#'   of names or an integer vector of index positions (the default). For
 #'   `any_shrthnd_cols()` either `TRUE` if there are any `shrthnd_num()`
 #'   vectors in the object or `FALSE` if not.
 #'
@@ -30,7 +29,7 @@
 #'
 #' which_shrthnd_cols(tbl)
 #'
-#' which_shrthnd_cols(tbl, .names = FALSE)
+#' which_shrthnd_cols(tbl, .names = TRUE)
 #'
 #' any_shrthnd_cols(tbl)
 where_shrthnd_cols <- function(x) {
@@ -53,7 +52,7 @@ where_shrthnd_cols <- function(x) {
 
 #' @rdname where_shrthnd_cols
 #' @export
-which_shrthnd_cols <- function(x, .names = TRUE) {
+which_shrthnd_cols <- function(x, .names = FALSE) {
 
   y <- where_shrthnd_cols(x)
 

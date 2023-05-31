@@ -8,7 +8,7 @@
 \usage{
 where_shrthnd_cols(x)
 
-which_shrthnd_cols(x, .names = TRUE)
+which_shrthnd_cols(x, .names = FALSE)
 
 any_shrthnd_cols(x)
 }
@@ -16,13 +16,12 @@ any_shrthnd_cols(x)
 \item{x}{A data.frame (or list)}
 
 \item{.names}{A logical vector indicating whether to return column names
-(the default) or an integer vector of column positions}
+or an integer vector of column positions (the default)}
 }
 \value{
 For \code{where_shrthnd_cols()} a logical vector of the same length as
 the number columns in \code{x}. For \code{which_shrthnd_cols()} a character vector
-of names (the default) or an integer vector of index positions for the
-columns (or elements) that are shrthnd_num vectors. For
+of names or an integer vector of index positions (the default). For
 \code{any_shrthnd_cols()} either \code{TRUE} if there are any \code{shrthnd_num()}
 vectors in the object or \code{FALSE} if not.
 }
@@ -42,7 +41,7 @@ where_shrthnd_cols(tbl)
 
 which_shrthnd_cols(tbl)
 
-which_shrthnd_cols(tbl, .names = FALSE)
+which_shrthnd_cols(tbl, .names = TRUE)
 
 any_shrthnd_cols(tbl)
 }

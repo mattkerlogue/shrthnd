@@ -12,10 +12,10 @@
 #' vector's shorthand.
 #'
 #' `where_tag()` is equivalent to computing `tags == tag`, `any_tag()` is
-#' equivalent to `is.na(tags)`, while `is_na_tag()` is equivalent to
-#' `is.na(tags)`. Using `is.na()` on a `shrthnd_num()` will assess if the
-#' numeric component is missing, `is_na_both()` tests if both the numeric and
-#' tag components of a `shrthnd_num()` are missing. They return a logical
+#' equivalent to `!is.na(tags)`. Using `is.na()` on a `shrthnd_num()` will
+#' assess if the numeric component is missing, `is_na_tag()` is equivalent to
+#' `is.na(tags)`, `is_na_both()` tests if both the numeric and tag components
+#' of a `shrthnd_num()` are missing. They return a logical
 #' vector the same length as `x`.
 #'
 #' `locate_tag()`, `locate_any_tag()`, `located_no_tag()` are equivalent to
@@ -48,6 +48,8 @@
 #' any_tag(sh_x)
 #'
 #' is_na_tag(sh_x)
+#'
+#' is_na_both(sh_x)
 #'
 #' locate_tag(sh_x, "[e]")
 #'
