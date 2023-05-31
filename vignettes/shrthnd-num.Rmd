@@ -1,0 +1,275 @@
+---
+title: "Numeric vectors with tags"
+output: rmarkdown::html_vignette
+author: Matt Kerlogue
+date: 2023-05-31
+vignette: >
+  %\VignetteIndexEntry{Numeric vectors with tags}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(shrthnd)
+```
+
+The development of the `{shrthnd}` package is heavily influenced by experience
+of working with statistical datasets published by governments and international
+bodies, especially departments and agencies in the UK producing outputs as
+part of the [UK statistical system](https://www.statisticsauthority.gov.uk).
+
+While data is increasingly released in machine readable formats or through APIs,
+there are still a large number of data products that continue to be released in
+spreadsheets and historical data from these institutions is often only
+available in spreadsheets. Beyond layout issues, such as the use of header and
+footer rows to communicate related information, it is not uncommon to encounter
+columns in these spreadsheets that contain a mix of numeric and non-numeric
+content. This non-numeric content may sometimes be the only content of a cell
+(to explain why there is no numeric value) or alongside a numeric value (to
+qualify, caveat or otherwise explain something about the value).
+
+The most common approach in data processing when encountering these sorts of
+issues is simply to scrub the vector of the non-numeric components and coerced
+it into a numeric vector. However, these tags often convey useful information
+which you may wish to retain.
+
+# Introducing `shrthnd_num()`
+
+The `shrthnd_num()` data type builds on `vctrs::new_rcrd()` to split numeric
+and non-numeric components while keeping them attached to each other. In
+practice a `shrthnd_num()` can be thought of as a `numeric()` and `character()`
+vector that have been coupled together. Specifically it has a `num` component
+representing the numeric value and a `tag` component representing the
+non-numeric shorthand, symbol or marker.
+
+Let us create the vector `x` with seven values:
+
+```{r}
+x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+x
+```
+
+The first, second and sixth values in this vector are purely numeric (`12`,
+`34.567` and `78.9`). The third value is a shorthand symbol (`"[c]"`) denoting
+that the value has been suppressed because it is confidential. The fourth value
+is a missing value (`"NA"`). The fifth and seventh values contain both numeric
+information (`56.78` and `90.123` respectively) but also shorthand (`"[e]"`) to
+denote that these values are estimated. Depending on what processing we wish to
+do with this vector in the future it might be useful to know that a value has
+been suppressed or estimated.
+
+Using `as.numeric()` on this vector will result in all of the values containing
+any non-numeric element to be converted to a missing value, causing us to lose
+all the information of the third, fifth and seventh values in the vector.
+
+```{r}
+as.numeric(x)
+```
+
+We could scrub the non-numeric elements of the vector, but we still lose the
+information provided by the shorthand.
+
+```{r}
+as.numeric(gsub("[^0-9.]", "", c(x)))
+```
+
+The `shrthnd_num()` function, however, allows us to retain both sets of
+information, and we can easily coerce a `shrthnd_num()` vector into a regular
+base R `numeric()` vector. We can also easily access the shorthand or symbol
+tags with the `shrthnd_tags()` function.
+
+```{r}
+sh_x <- shrthnd_num(x)
+
+sh_x
+
+as.numeric(sh_x)
+
+shrthnd_tags(sh_x)
+```
+
+The `shrthnd_list()` function provides a summary of the tags contained in a
+`shrthnd_num()` vector, their frequency and positions in the vector.
+
+```{r}
+shrthnd_list(sh_x)
+```
+
+We saw above how `as.numeric()` converts a `shrthnd_num()` to a numeric vector,
+`as.character()` will similarly convert a `shrthnd_num()` to a character vector
+as if it were a numeric vector. Instead to print a character vector that
+combines the numeric and non-numeric components we can use `as_shrthnd()`.
+
+```{r}
+as.character(sh_x)
+
+as_shrthnd(sh_x)
+```
+
+# Making a shrthnd_num
+
+You can make a `shrthnd_num()` vector in two ways: using `shrthnd_num()` to
+convert a character vector containing numeric and non-numeric components, or
+`make_shrthnd_num()` to merge a vector of numbers and a vector of character
+strings.
+
+## Conversion to a shrthnd_num
+
+You convert a character vector containing shorthand using `shrthnd_num()`. In
+addition to the character vector you can also supply additional arguments to
+control the behaviour of the conversion and the resulting display of the vector.
+
+```{r}
+shrthnd_num(
+  x,
+  shorthand = NULL,
+  na_values = "NA",
+  digits = 2L,
+  paren_nums = c("negative", "strip"),
+  dec = ".",
+  bigmark = ","
+)
+```
+
+The `shorthand` argument allows you to pass a character vector of shorthand,
+symbols and markers that you want to validate against, i.e. you can cause the
+conversion to throw an error if it detects shorthand that is not in this vector.
+
+The `na_values` argument is used to determine values that should be ignored
+when identifying shorthand tags and converted to missing values when extracting
+the numeric component.
+
+The `digits`, `dec` and `bigmark` arguments are passed on to `formatC()` in the
+formatting of the numeric component when formatting and printing the vector.
+
+The `paren_nums` argument determines how to handle numbers in parenthesis, i.e.
+whether to consider a number in parenthesis as a negative number (as is
+commonly used in accounting formats, and the default setting) or whether to
+just strip the parenthesis from the number before its conversion.
+
+The coercion to a `numeric()` vector is handled by `utils::type.convert()`.
+
+## Making a shrthnd_num from scratch
+
+You can use `make_shrthnd_num()` to create a `shrthnd_num()` from a `numeric()`
+and `character()` vector of the same length.
+
+```{r}
+make_shrthnd_num(c(1:3, NA, 4:5, NA), c("", "", "", "[c]", "", "[e]", NA))
+```
+
+# Coercion, maths and statistics
+
+Generally a `shrthnd_num()` should behave like a `numeric()` vector. For
+example, using `is.na()` will return `TRUE` where the numeric value is missing
+and `FALSE` where the numeric value is not missing. Or, if you use `c()` to
+combine a `shrthnd_num()` with another vector it will first coerce the vector
+to numeric so that R can proceed from there.
+
+```{r}
+is.na(sh_x)
+
+c(sh_x, 1)
+
+c(sh_x, "c")
+```
+
+However, in keeping with base R practice around complex numeric objects such
+as `Date()`, `difftime()` and `POSIXct()`, using `is.numeric()` on a
+`shrthnd_num()` vector will return `FALSE`. Use `is_shrthnd_num()` to test
+if a vector is a `shrthnd_num()` vector.
+
+```{r}
+is.numeric(sh_x)
+
+is_shrthnd_num(sh_x)
+```
+
+Through `vctrs::vec_arith()` and `vctrs::vec_math()` there is generalised
+support for arithmetic and mathematical operations on a `shrthnd_num()` vector.
+Bespoke methods have also been added for some functions which are not directly
+supported, such as `median()` and `quantile()`, so that they can easily
+work with the numeric components of the `shrthnd_num()` vector.
+
+```{r}
+x <- c("12", "34.567", "[c]", "NA", "56.78[e]", "78.9", "90.123[e]")
+sh_x <- shrthnd_num(x, c("[c]", "[e]"))
+
+sh_x * 2
+
+2 + sh_x
+
+sum(sh_x, na.rm = TRUE)
+
+range(sh_x, na.rm = TRUE)
+
+mean(sh_x, na.rm = TRUE)
+```
+
+# Working with shrthnd tags
+
+The `shrthnd_tags()` function allows us to access the tag components of a
+`shrthnd_num()`. It has a related function `shrthnd_unique_tags()` which will
+return a unique list of tags, and is simply a convenience function in place of
+`unique(shrthnd_tags(x))`.
+
+```{r}
+shrthnd_tags(sh_x)
+
+shrthnd_unique_tags(sh_x)
+```
+
+The base R functions for value matching work with the numeric component of a
+`shrthnd_num()` vector. Separate tag locator functions have been used to
+support matching the tag components of a `shrthnd_num()` vector.
+
+`tag_match()` returns an integer vector showing the first location of the tag
+provided while `tag_in()` will return `TRUE` or `FALSE` depending on whether
+the tag is in the vector's shorthand.
+
+```{r}
+tag_match(sh_x, "[e]")
+
+tag_in(sh_x, "[e]")
+```
+
+To locate where a specific tag is used in a vector use `where_tag()`, which is
+equivalent to computing `tags == tag`. To identify if a value has a tag,
+irrespective of its value use `any_tag()`, which is equivalent to
+`!is.na(tags)`.
+
+```{r}
+where_tag(sh_x, "[e]")
+
+any_tag(sh_x)
+```
+
+Using `is.na()` on a `shrthnd_num()` will assess if the numeric component is
+missing. To identify if tags are missing use `is_na_tag()`, which is equivalent
+to `is.na(tags)`. To identify if both the numeric and tag component is missing
+use `is_na_both()`.
+
+```{r}
+is_na_tag(sh_x)
+
+is_na_both(sh_x)
+```
+
+Finally, you can locate the positions of a specific tag, tagged values or
+untagged values using a set of `locate_*()` functions, which are convenience
+functions wrapping the functions that return logical vectors in `which()`.
+
+```{r}
+locate_tag(sh_x, "[e]")
+
+locate_any_tag(sh_x)
+
+locate_no_tag(sh_x)
+```
